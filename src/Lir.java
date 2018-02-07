@@ -9,7 +9,8 @@ public class Lir extends PApplet {
 	float cC = 1.6f;
 	float sC = 1.5f;
 	float pullDist = 175;
-	float desiredSep = 30;
+	float desiredSep = 60;
+	float scareDist = 50;
 
 	// PApplet extension
 	public static void main(String[] args) {
@@ -33,7 +34,7 @@ public class Lir extends PApplet {
 	// draw canvas and run
 	public void draw() {
 		background(255);
-		int popSize = s.run(aC, cC, sC, pullDist, desiredSep);
+		int popSize = s.run(aC, cC, sC, pullDist, desiredSep, scareDist);
 		fill(0);
 		text(("Population Size: " + popSize + " Alignment: " + aC + " Cohesion: " 
 				+ cC + " Separation: " + sC + " Attraction Distance: " + pullDist

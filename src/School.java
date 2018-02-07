@@ -8,10 +8,11 @@ public class School {
 	}
 
 	// call fish run method for each in array
-	public int run(float aC, float cC, float sC, float pullDist, float desiredSep) {
+	public int run(float aC, float cC, float sC, float pullDist, float desiredSep, 
+			float scareDist) {
 		int popSize = 0; 
 		for (Fish f : fishes) {
-			f.run(fishes, aC, cC, sC, pullDist, desiredSep);
+			f.run(fishes, aC, cC, sC, pullDist, desiredSep, scareDist);
 			popSize++;
 		}
 		return popSize;

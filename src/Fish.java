@@ -15,12 +15,12 @@ public class Fish {
 		// PApplet to reference canvas
 		parent = p;
 		if ((x==0) && (y==0)) {
-			// random start position
+			// random start position if no input variables
 			position = new PVector(p.random(p.width),p.random(p.height));
 		} else {
 			position = new PVector(x,y);
 		}
-		
+
 		// random velocity vector
 		velocity = new PVector(p.random(-1,1),p.random(-1,1));
 		// WHAT IS THIS
@@ -31,8 +31,9 @@ public class Fish {
 	}
 
 	// run method for fish
-	public void run(ArrayList<Fish> fishes, float aC, float cC, float sC, float pullDist, float desiredSep) {
-		school(fishes, aC, cC, sC, pullDist, desiredSep);
+	public void run(ArrayList<Fish> fishes, float aC, float cC, float sC, float pullDist,
+			float desiredSep, float scareDist) {
+		school(fishes, aC, cC, sC, pullDist, desiredSep, scareDist);
 		update();
 		borders();
 		render();
@@ -44,11 +45,13 @@ public class Fish {
 	}
 
 	// applies various swarm forces
-	private void school(ArrayList<Fish> fishes, float aC, float cC, float sC, float pullDist, float desiredSep) {
+	private void school(ArrayList<Fish> fishes, float aC, float cC, float sC, 
+			float pullDist, float desiredSep, float scareDist) {
 		// init. each force
 		PVector a = align(fishes, pullDist);
 		PVector s = separate(fishes, desiredSep);
 		PVector c = cohesion(fishes, pullDist);
+		PVector f = flight(scareDist);
 		// apply weights
 		a.mult(aC);
 		s.mult(sC);
@@ -57,6 +60,7 @@ public class Fish {
 		applyForce(a);
 		applyForce(s);
 		applyForce(c);
+		applyForce(f);
 
 	}
 
@@ -64,7 +68,7 @@ public class Fish {
 	private void update() {
 		position.add(velocity);
 	}
-	
+
 	// applies a steering force towards a target
 	// STEER = DESIRED MINUS VELOCITY
 	public PVector seek(PVector target) {
@@ -78,9 +82,9 @@ public class Fish {
 		steer.limit(maxforce);  // Limit to maximum steering force
 		return steer;
 	}
-	
+
 	// applies steering force away from a target
-	public PVector flee(PVector predator) {
+	/*public PVector flee(PVector predator) {
 		// A vector pointing from the position to the predator
 		PVector aversion = PVector.sub(predator, position);
 		aversion.normalize();
@@ -89,7 +93,7 @@ public class Fish {
 		PVector steer = PVector.sub(aversion, velocity).rotate((float) Math.PI);
 		steer.limit(maxforce);
 		return steer;
-	}
+	}*/
 
 
 	// border behavior
@@ -102,11 +106,11 @@ public class Fish {
 			velocity.y = velocity.y * -1;
 		}*/
 		// wraps fish around borders
-		
-	    if (position.x < -r) position.x = parent.width+r;
-	    if (position.y < -r) position.y = parent.height+r;
-	    if (position.x > parent.width+r) position.x = -r;
-	    if (position.y > parent.height+r) position.y = -r;
+
+		if (position.x < -r) position.x = parent.width+r;
+		if (position.y < -r) position.y = parent.height+r;
+		if (position.x > parent.width+r) position.x = -r;
+		if (position.y > parent.height+r) position.y = -r;
 	}
 
 	// draws the fish
@@ -153,7 +157,7 @@ public class Fish {
 			return new PVector(0,0);
 		}
 	}
-	
+
 	// steers away from fish that are too close
 	private PVector separate(ArrayList<Fish> fishes, float desiredSep) {
 		PVector steer = new PVector();
@@ -168,8 +172,8 @@ public class Fish {
 				// USE THIS FOR FLEE METHOD??
 				PVector diff = PVector.sub(position,  other.position);
 				diff.normalize();
-				// weight by distance
-				diff.div(d);
+				// weight by distance ???
+				diff.div(d*2);
 				steer.add(diff);
 				count++;
 			}
@@ -189,7 +193,7 @@ public class Fish {
 		}
 		return steer;
 	}
-	
+
 	// steers fish towards center of mass
 	private PVector cohesion(ArrayList<Fish> fishes, float pullDist) {
 		PVector sum = new PVector(0,0);
@@ -210,23 +214,31 @@ public class Fish {
 			return new PVector(0,0);
 		}
 	}
-	
-	// steers fish away from mouse
-	private PVector flight(ArrayList<Fish> fishes, float scareDist) {
-		PVector sum = new PVector(0,0);
-		int count = 0;
-		// loop thru all fish
-		for (Fish other : fishes) {
-			// if within pull distance (
-			float d = PVector.dist(position, other.position);
-			if ((d > 0 ) && (d < scareDist)) {
-				sum.add(other.position);
-				count++;
-			}
-		}
-		if (count > 0 ) {
-			sum.div(count);
-			return flee(sum);
+
+	// steers away from fish that are too close
+	private PVector flight(float scareDist) {
+		PVector steer = new PVector();
+		PVector mouse = new PVector(parent.mouseX, parent.mouseY);
+		// check distance like in align()
+		float d = PVector.dist(position, mouse);
+		// if d is within range
+		if ((d > 0) && (d < scareDist)) {
+			// get vector away from neighbor 
+			// USE THIS FOR FLEE METHOD??
+			PVector diff = PVector.sub(position, mouse);
+			diff.normalize();
+			// weight by distance ???
+			diff.div(d);
+			steer.add(diff);
+			if (steer.mag() > 0) {
+				// steering = desired - velocity
+				// Reynolds
+				steer.normalize();
+				steer.mult(maxspeed);
+				steer.sub(velocity);
+				steer.limit(maxforce);
+			} 
+			return steer;
 		} else {
 			return new PVector(0,0);
 		}
