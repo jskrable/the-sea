@@ -9,9 +9,6 @@ public class Fish {
 	float maxforce;
 	float maxspeed;
 	PApplet parent;
-	// tweak for force fun
-	float pullDist = 50;
-	float desiredSep = 50;
 
 	// Fish constructor
 	public Fish(PApplet p, int x, int y) {
@@ -33,31 +30,29 @@ public class Fish {
 		maxforce = (float) 0.05;
 	}
 
-	// run method for fish, takes array of fishes
-	public void run(ArrayList<Fish> fishes) {
-		school(fishes);
+	// run method for fish
+	public void run(ArrayList<Fish> fishes, float aC, float cC, float sC, float pullDist, float desiredSep) {
+		school(fishes, aC, cC, sC, pullDist, desiredSep);
 		update();
 		borders();
 		render();
 	}
 
 	// applies a PVector acceleration
-	// ACCELERATION ISSUE HERE!!!!
 	private void applyForce(PVector force) {
 		velocity.add(force);
 	}
 
 	// applies various swarm forces
-	// SOMETHING HERE CAUSING UNCONTROLLABLE ACCELERATION
-	private void school(ArrayList<Fish> fishes) {
+	private void school(ArrayList<Fish> fishes, float aC, float cC, float sC, float pullDist, float desiredSep) {
 		// init. each force
 		PVector a = align(fishes, pullDist);
 		PVector s = separate(fishes, desiredSep);
 		PVector c = cohesion(fishes, pullDist);
 		// apply weights
-		a.mult(1.25f);
-		s.mult(1.5f);
-		c.mult(1.1f);
+		a.mult(aC);
+		s.mult(sC);
+		c.mult(cC);
 		// apply each force
 		applyForce(a);
 		applyForce(s);
@@ -67,7 +62,6 @@ public class Fish {
 
 	// method to change direction
 	private void update() {
-		//velocity.add(acceleration);
 		position.add(velocity);
 	}
 	
@@ -87,10 +81,12 @@ public class Fish {
 	
 	// applies steering force away from a target
 	public PVector flee(PVector predator) {
+		// A vector pointing from the position to the predator
 		PVector aversion = PVector.sub(predator, position);
 		aversion.normalize();
 		aversion.mult(maxspeed);
-		PVector steer = PVector.sub(aversion, velocity);
+		// steer in opposite direction
+		PVector steer = PVector.sub(aversion, velocity).rotate((float) Math.PI);
 		steer.limit(maxforce);
 		return steer;
 	}
@@ -99,18 +95,18 @@ public class Fish {
 	// border behavior
 	private void borders() {
 		// bounces fish off borders of canvass
-		if ((position.x > parent.width) || (position.x < 0)) {
+		/*if ((position.x > parent.width) || (position.x < 0)) {
 			velocity.x = velocity.x * -1;
 		}
 		if ((position.y > parent.height) || (position.y < 0)) {
 			velocity.y = velocity.y * -1;
-		}
+		}*/
 		// wraps fish around borders
-		/*
+		
 	    if (position.x < -r) position.x = parent.width+r;
 	    if (position.y < -r) position.y = parent.height+r;
 	    if (position.x > parent.width+r) position.x = -r;
-	    if (position.y > parent.height+r) position.y = -r;*/
+	    if (position.y > parent.height+r) position.y = -r;
 	}
 
 	// draws the fish
@@ -210,6 +206,27 @@ public class Fish {
 		if (count > 0 ) {
 			sum.div(count);
 			return seek(sum);
+		} else {
+			return new PVector(0,0);
+		}
+	}
+	
+	// steers fish away from mouse
+	private PVector flight(ArrayList<Fish> fishes, float scareDist) {
+		PVector sum = new PVector(0,0);
+		int count = 0;
+		// loop thru all fish
+		for (Fish other : fishes) {
+			// if within pull distance (
+			float d = PVector.dist(position, other.position);
+			if ((d > 0 ) && (d < scareDist)) {
+				sum.add(other.position);
+				count++;
+			}
+		}
+		if (count > 0 ) {
+			sum.div(count);
+			return flee(sum);
 		} else {
 			return new PVector(0,0);
 		}
