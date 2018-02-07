@@ -44,8 +44,9 @@ public class Fish {
 	}
 
 	// applies various swarm forces
+	// SOMETHING HERE CAUSING UNCONTROLLABLE ACCELERATION
 	private void school(ArrayList<Fish> fishes) {
-		// init. each force
+		/*// init. each force
 		PVector a = align(fishes, pullDist);
 		PVector s = separate(fishes, desiredSep);
 		PVector c = cohesion(fishes, pullDist);
@@ -56,7 +57,7 @@ public class Fish {
 		// apply each force
 		applyForce(a);
 		applyForce(s);
-		applyForce(c);
+		applyForce(c);*/
 
 	}
 
@@ -84,27 +85,27 @@ public class Fish {
 	// border behavior
 	private void borders() {
 		// bounces fish off borders of canvass
-		/*if ((position.x > parent.width) || (position.x < 0)) {
+		if ((position.x > parent.width) || (position.x < 0)) {
 			velocity.x = velocity.x * -1;
 		}
 		if ((position.y > parent.height) || (position.y < 0)) {
 			velocity.y = velocity.y * -1;
-		}*/
+		}
 		// wraps fish around borders
+		/*
 	    if (position.x < -r) position.x = parent.width+r;
 	    if (position.y < -r) position.y = parent.height+r;
 	    if (position.x > parent.width+r) position.x = -r;
-	    if (position.y > parent.height+r) position.y = -r;
+	    if (position.y > parent.height+r) position.y = -r;*/
 	}
 
 	// draws the fish
 	private void render() {
-		float theta = velocity.heading() + PApplet.radians(90);
-		parent.stroke(0);
-		parent.strokeWeight(1);
-		parent.fill(127);
+		float theta = (float) (velocity.heading() + (Math.PI/2)) ;
 		parent.pushMatrix();
-		parent.translate(position.x, position.y);
+		parent.stroke(0);
+		parent.fill(127);
+		//parent.translate(position.x, position.y);
 		parent.rotate(theta);
 		parent.ellipse(position.x,position.y,10,25);
 		parent.popMatrix();
