@@ -8,10 +8,13 @@ public class School {
 	}
 
 	// call fish run method for each in array
-	public void run() {
+	public int run() {
+		int popSize = 0; 
 		for (Fish f : fishes) {
 			f.run(fishes);
+			popSize++;
 		}
+		return popSize;
 	}
 
 	// method to add fish to array

@@ -5,29 +5,32 @@ public class Fish {
 	// variable declarations
 	PVector position;
 	PVector velocity;
-	PVector acceleration;
 	float r;
 	float maxforce;
 	float maxspeed;
 	PApplet parent;
 	// tweak for force fun
-	float pullDist = 30;
-	float desiredSep = 20;
+	float pullDist = 50;
+	float desiredSep = 50;
 
 	// Fish constructor
-	Fish(PApplet p) {
+	public Fish(PApplet p, int x, int y) {
 		// PApplet to reference canvas
 		parent = p;
-		// random start position
-		position = new PVector(p.random(p.width),p.random(p.height));
+		if ((x==0) && (y==0)) {
+			// random start position
+			position = new PVector(p.random(p.width),p.random(p.height));
+		} else {
+			position = new PVector(x,y);
+		}
+		
 		// random velocity vector
 		velocity = new PVector(p.random(-1,1),p.random(-1,1));
-		acceleration = new PVector(0,0);
 		// WHAT IS THIS
 		r = (float) 3.0;
 		// maximums
-		maxspeed = (float) .5;
-		maxforce = (float) 0.03;
+		maxspeed = (float) 3;
+		maxforce = (float) 0.05;
 	}
 
 	// run method for fish, takes array of fishes
@@ -39,35 +42,36 @@ public class Fish {
 	}
 
 	// applies a PVector acceleration
+	// ACCELERATION ISSUE HERE!!!!
 	private void applyForce(PVector force) {
-		acceleration.add(force);
+		velocity.add(force);
 	}
 
 	// applies various swarm forces
 	// SOMETHING HERE CAUSING UNCONTROLLABLE ACCELERATION
 	private void school(ArrayList<Fish> fishes) {
-		/*// init. each force
+		// init. each force
 		PVector a = align(fishes, pullDist);
 		PVector s = separate(fishes, desiredSep);
 		PVector c = cohesion(fishes, pullDist);
 		// apply weights
-		a.mult(1);
-		s.mult(1);
-		c.mult((float) 1.5);
+		a.mult(1.25f);
+		s.mult(1.5f);
+		c.mult(1.1f);
 		// apply each force
 		applyForce(a);
 		applyForce(s);
-		applyForce(c);*/
+		applyForce(c);
 
 	}
 
 	// method to change direction
 	private void update() {
-		velocity.add(acceleration);
+		//velocity.add(acceleration);
 		position.add(velocity);
 	}
 	
-	// A method that calculates and applies a steering force towards a target
+	// applies a steering force towards a target
 	// STEER = DESIRED MINUS VELOCITY
 	public PVector seek(PVector target) {
 		// A vector pointing from the position to the target
@@ -78,6 +82,16 @@ public class Fish {
 		// Steering = Desired minus Velocity
 		PVector steer = PVector.sub(desired,velocity);
 		steer.limit(maxforce);  // Limit to maximum steering force
+		return steer;
+	}
+	
+	// applies steering force away from a target
+	public PVector flee(PVector predator) {
+		PVector aversion = PVector.sub(predator, position);
+		aversion.normalize();
+		aversion.mult(maxspeed);
+		PVector steer = PVector.sub(aversion, velocity);
+		steer.limit(maxforce);
 		return steer;
 	}
 
@@ -100,13 +114,14 @@ public class Fish {
 	}
 
 	// draws the fish
+	// NEED TO ADD ROTATION
 	private void render() {
-		float theta = (float) (velocity.heading() + (Math.PI/2)) ;
+		//float theta = (float) (velocity.heading() + (Math.PI/2)) ;
 		parent.pushMatrix();
-		parent.stroke(0);
+		//parent.stroke(0);
 		parent.fill(127);
 		//parent.translate(position.x, position.y);
-		parent.rotate(theta);
+		//parent.rotate(theta);
 		parent.ellipse(position.x,position.y,10,25);
 		parent.popMatrix();
 	}
@@ -145,14 +160,14 @@ public class Fish {
 	
 	// steers away from fish that are too close
 	private PVector separate(ArrayList<Fish> fishes, float desiredSep) {
-		PVector steer = new PVector(0,0,0);
+		PVector steer = new PVector();
 		int count = 0;
 		// loop through all fish
 		for (Fish other : fishes) {
 			// check distance like in align()
-			float d = PVector.dist(position,other.position);
+			float d = PVector.dist(position, other.position);
 			// if d is within range
-			if ((d < 0) && (d < desiredSep)) {
+			if ((d > 0) && (d < desiredSep)) {
 				// get vector away from neighbor 
 				// USE THIS FOR FLEE METHOD??
 				PVector diff = PVector.sub(position,  other.position);
@@ -179,10 +194,13 @@ public class Fish {
 		return steer;
 	}
 	
+	// steers fish towards center of mass
 	private PVector cohesion(ArrayList<Fish> fishes, float pullDist) {
 		PVector sum = new PVector(0,0);
 		int count = 0;
+		// loop thru all fish
 		for (Fish other : fishes) {
+			// if within pull distance (
 			float d = PVector.dist(position, other.position);
 			if ((d > 0 ) && (d < pullDist)) {
 				sum.add(other.position);

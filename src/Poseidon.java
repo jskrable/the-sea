@@ -20,7 +20,7 @@ public class Poseidon extends PApplet {
 	public void setup() {
 		s = new School();
 		for (int i = 0; i < popSize; i++) {
-			Fish f = new Fish(this);
+			Fish f = new Fish(this, 0, 0);
 			s.addFish(f);
 		}
 	}
@@ -28,6 +28,12 @@ public class Poseidon extends PApplet {
 	// draw canvas and run
 	public void draw() {
 		background(255);
-		s.run();
+		int popSize = s.run();
+		fill(0);
+		text(("Population Size: " + popSize), 10, this.height - 16);
 	}
+	
+	public void mouseDragged() {
+		  s.addFish(new Fish(this, mouseX,mouseY));
+		}
 }
