@@ -7,9 +7,9 @@ public class Lir extends PApplet {
 	int popSize = 50;
 	float aC = 1.0f;
 	float cC = 1.6f;
-	float sC = 1.5f;
-	float pullDist = 175;
-	float desiredSep = 60;
+	float sC = 2.0f;
+	float pullDist = 150;
+	float desiredSep = 40;
 	float scareDist = 50;
 
 	// PApplet extension
@@ -39,6 +39,7 @@ public class Lir extends PApplet {
 		text(("Population Size: " + popSize + " Alignment: " + aC + " Cohesion: " 
 				+ cC + " Separation: " + sC + " Attraction Distance: " + pullDist
 				+ " Personal Space: " + desiredSep), 12, this.height - 16);
+		text("Click and drag to add new fish", this.width - 200, this.height - 16);
 		
 	}
 	

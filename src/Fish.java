@@ -57,9 +57,9 @@ public class Fish {
 		s.mult(sC);
 		c.mult(cC);
 		// apply each force
-		applyForce(a);
-		applyForce(s);
 		applyForce(c);
+		applyForce(s);
+		applyForce(a);
 		applyForce(f);
 
 	}
