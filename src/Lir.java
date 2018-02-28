@@ -1,16 +1,17 @@
 import processing.core.PApplet;
 
 public class Lir extends PApplet {
-	// init. school object
+	// initialize school object
 	School s;
 	// variable set
 	int popSize = 50;
 	float aC = 1.0f;
 	float cC = 1.6f;
 	float sC = 2.0f;
+	float fC = 2.2f;
 	float pullDist = 150;
 	float desiredSep = 40;
-	float scareDist = 50;
+	float scareDist = 100;
 
 	// PApplet extension
 	public static void main(String[] args) {
@@ -34,15 +35,17 @@ public class Lir extends PApplet {
 	// draw canvas and run
 	public void draw() {
 		background(255);
-		int popSize = s.run(aC, cC, sC, pullDist, desiredSep, scareDist);
+		int popSize = s.run(aC, cC, sC, fC, pullDist, desiredSep, scareDist);
 		fill(0);
 		text(("Population Size: " + popSize + " Alignment: " + aC + " Cohesion: " 
-				+ cC + " Separation: " + sC + " Attraction Distance: " + pullDist
+				+ cC + " Separation: " + sC + " Flight: " + fC + " Scare Distance: "
+				+ scareDist + " Attraction Distance: " + pullDist
 				+ " Personal Space: " + desiredSep), 12, this.height - 16);
 		text("Click and drag to add new fish", this.width - 200, this.height - 16);
 		
 	}
 	
+	// add new fish to school on mouse
 	public void mouseDragged() {
 		  s.addFish(new Fish(this, mouseX,mouseY));
 		}

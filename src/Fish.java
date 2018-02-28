@@ -23,7 +23,6 @@ public class Fish {
 
 		// random velocity vector
 		velocity = new PVector(p.random(-1,1),p.random(-1,1));
-		// WHAT IS THIS
 		r = (float) 3.0;
 		// maximums
 		maxspeed = (float) 3;
@@ -31,9 +30,9 @@ public class Fish {
 	}
 
 	// run method for fish
-	public void run(ArrayList<Fish> fishes, float aC, float cC, float sC, float pullDist,
+	public void run(ArrayList<Fish> fishes, float aC, float cC, float sC, float fC, float pullDist,
 			float desiredSep, float scareDist) {
-		school(fishes, aC, cC, sC, pullDist, desiredSep, scareDist);
+		school(fishes, aC, cC, sC, fC, pullDist, desiredSep, scareDist);
 		update();
 		borders();
 		render();
@@ -45,17 +44,18 @@ public class Fish {
 	}
 
 	// applies various swarm forces
-	private void school(ArrayList<Fish> fishes, float aC, float cC, float sC, 
+	private void school(ArrayList<Fish> fishes, float aC, float cC, float sC, float fC,
 			float pullDist, float desiredSep, float scareDist) {
 		// init. each force
 		PVector a = align(fishes, pullDist);
 		PVector s = separate(fishes, desiredSep);
 		PVector c = cohesion(fishes, pullDist);
-		PVector f = flight(scareDist);
+		PVector f = flight( scareDist);
 		// apply weights
 		a.mult(aC);
 		s.mult(sC);
 		c.mult(cC);
+		f.mult(fC);
 		// apply each force
 		applyForce(c);
 		applyForce(s);
@@ -82,18 +82,6 @@ public class Fish {
 		steer.limit(maxforce);  // Limit to maximum steering force
 		return steer;
 	}
-
-	// applies steering force away from a target
-	/*public PVector flee(PVector predator) {
-		// A vector pointing from the position to the predator
-		PVector aversion = PVector.sub(predator, position);
-		aversion.normalize();
-		aversion.mult(maxspeed);
-		// steer in opposite direction
-		PVector steer = PVector.sub(aversion, velocity).rotate((float) Math.PI);
-		steer.limit(maxforce);
-		return steer;
-	}*/
 
 
 	// border behavior
@@ -122,7 +110,7 @@ public class Fish {
 		parent.fill(127);
 		//parent.translate(position.x, position.y);
 		//parent.rotate(theta);
-		parent.ellipse(position.x,position.y,10,25);
+		parent.ellipse(position.x,position.y,10,10);
 		parent.popMatrix();
 	}
 
@@ -215,7 +203,7 @@ public class Fish {
 		}
 	}
 
-	// steers away from fish that are too close
+	// steers away from fish that are too close to mouse
 	private PVector flight(float scareDist) {
 		PVector steer = new PVector();
 		PVector mouse = new PVector(parent.mouseX, parent.mouseY);
@@ -223,24 +211,24 @@ public class Fish {
 		float d = PVector.dist(position, mouse);
 		// if d is within range
 		if ((d > 0) && (d < scareDist)) {
-			// get vector away from neighbor 
-			// USE THIS FOR FLEE METHOD??
+			// get vector away from mouse 
 			PVector diff = PVector.sub(position, mouse);
 			diff.normalize();
 			// weight by distance ???
 			diff.div(d);
 			steer.add(diff);
-			if (steer.mag() > 0) {
-				// steering = desired - velocity
-				// Reynolds
-				steer.normalize();
-				steer.mult(maxspeed);
-				steer.sub(velocity);
-				steer.limit(maxforce);
-			} 
-			return steer;
+			
+		}
+		if (steer.mag() > 0) {
+			// steering = desired - velocity
+			// Reynolds
+			steer.normalize();
+			steer.mult(maxspeed);
+			steer.sub(velocity);
+			steer.limit(maxforce);
+			return steer; 
 		} else {
-			return new PVector(0,0);
+		return new PVector(0,0);
 		}
 	}
 }
