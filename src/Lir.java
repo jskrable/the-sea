@@ -9,10 +9,11 @@ public class Lir extends PApplet {
 	float aC = 1.0f;
 	float cC = 1.4f;
 	float sC = 2.0f;
-	float fC = 2.2f;
-	float pullDist = 150;
-	float desiredSep = 40;
-	float scareDist = 100;
+	float fC = 2.6f;
+	int pullDist = 150;
+	int desiredSep = 40;
+	int scareDist = 100;
+	int sniffDist = 200;
 
 	// PApplet extension
 	public static void main(String[] args) {
@@ -38,14 +39,17 @@ public class Lir extends PApplet {
 	// draw canvas and run
 	public void draw() {
 		background(255);
+		// add school of guppies
 		int schoolPopSize = s.run(aC, cC, sC, fC, pullDist, desiredSep, scareDist, p);
-		p.run(s);
+		// add a predator
+		p.run(s, sniffDist);
 		fill(0);
 		text(("Population Size: " + schoolPopSize + " Alignment: " + aC + " Cohesion: " 
 				+ cC + " Separation: " + sC + " Flight: " + fC + " Scare Distance: "
 				+ scareDist + " Attraction Distance: " + pullDist
-				+ " Personal Space: " + desiredSep), 12, this.height - 16);
-		text("Click and drag to add new fish", this.width - 200, this.height - 16);
+				+ " Personal Space: " + desiredSep + "Sniff Distance: "
+				+ sniffDist), 12, this.height - 16);
+		text("Click and drag to add new fish", this.width - 180, this.height - 16);
 		
 	}
 	

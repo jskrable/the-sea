@@ -11,7 +11,7 @@ public class Guppy extends Fish {
 	
 	// applies various swarm forces
 	protected void school(ArrayList<Guppy> guppies, float aC, float cC, float sC, float fC,
-			float pullDist, float desiredSep, float scareDist, Predator p) {
+			int pullDist, int desiredSep, int scareDist, Predator p) {
 		// init. each force
 		PVector a = align(guppies, pullDist);
 		PVector s = separate(guppies, desiredSep);
@@ -31,8 +31,8 @@ public class Guppy extends Fish {
 	}
 	
 	// run method for guppies
-	public void run(ArrayList<Guppy> guppies, float aC, float cC, float sC, float fC, float pullDist,
-			float desiredSep, float scareDist, Predator p) {
+	public void run(ArrayList<Guppy> guppies, float aC, float cC, float sC, float fC, 
+			int pullDist, int desiredSep, int scareDist, Predator p) {
 		school(guppies, aC, cC, sC, fC, pullDist, desiredSep, scareDist, p);
 		update();
 		borders();

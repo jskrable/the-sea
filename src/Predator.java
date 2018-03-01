@@ -19,33 +19,35 @@ public class Predator extends Fish{
 	}
 	
 	// run method for predators
-	public void run(School s) {
-		applyForce(hunt(s).mult(2.0f));
+	public void run(School s, float sniffDist) {
+		applyForce(hunt(s, sniffDist).mult(4.0f));
 		update();
 		borders();
 		render();
 	}
 	
 	// hunt method to aim for guppies
-	private PVector hunt(School s) {
+	private PVector hunt(School s, float sniffDist) {
 		// pull in school of guppies
 		ArrayList<Guppy> guppies;
 		guppies = s.guppies;
-		// empty PVector to hold steer
+		// initialize variables;
 		PVector steer = new PVector();
 		PVector attack = new PVector();
-		float min = 100;
+		float min = sniffDist;
 		float d = 0;
 		// loop thru guppies to attack
 		for (Guppy g : guppies) {
+			// get distance between guppy and pred
 			d = PVector.dist(position, g.position);
+			// if distance 
 			if ((d > 0) && (d < min)) {
-				min = d;
-				attack = PVector.add(position, g.position);
+				//min = d;
+				attack = PVector.sub(g.position,velocity);
 			}
 		}
 		attack.normalize();
-		attack.div(d);
+		//attack.div(d);
 		steer.add(attack);
 		if (steer.mag() > 0) {
 			// steering = desired - velocity
