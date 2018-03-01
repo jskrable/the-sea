@@ -27,8 +27,8 @@ public class Lir extends PApplet {
 	public void setup() {
 		s = new School();
 		for (int i = 0; i < popSize; i++) {
-			Fish f = new Fish(this, 0, 0);
-			s.addFish(f);
+			Guppy g = new Guppy(this, 0, 0);
+			s.addGuppy(g);
 		}
 	}
 
@@ -47,6 +47,6 @@ public class Lir extends PApplet {
 	
 	// add new fish to school on mouse
 	public void mouseDragged() {
-		  s.addFish(new Fish(this, mouseX,mouseY));
+		  s.addGuppy(new Guppy(this, mouseX,mouseY));
 		}
 }
