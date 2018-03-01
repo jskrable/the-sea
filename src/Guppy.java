@@ -11,12 +11,12 @@ public class Guppy extends Fish {
 	
 	// applies various swarm forces
 	protected void school(ArrayList<Guppy> guppies, float aC, float cC, float sC, float fC,
-			float pullDist, float desiredSep, float scareDist) {
+			float pullDist, float desiredSep, float scareDist, Predator p) {
 		// init. each force
 		PVector a = align(guppies, pullDist);
 		PVector s = separate(guppies, desiredSep);
 		PVector c = cohesion(guppies, pullDist);
-		PVector f = flight( scareDist);
+		PVector f = flight(scareDist, p);
 		// apply weights
 		a.mult(aC);
 		s.mult(sC);
@@ -32,26 +32,21 @@ public class Guppy extends Fish {
 	
 	// run method for fish
 	public void run(ArrayList<Guppy> guppies, float aC, float cC, float sC, float fC, float pullDist,
-			float desiredSep, float scareDist) {
-		school(guppies, aC, cC, sC, fC, pullDist, desiredSep, scareDist);
+			float desiredSep, float scareDist, Predator p) {
+		school(guppies, aC, cC, sC, fC, pullDist, desiredSep, scareDist, p);
 		update();
 		borders();
 		render();
 	}
 	
-	// applies a steering force towards a target
-	// STEER = DESIRED MINUS VELOCITY
-	public PVector seek(PVector target) {
-		// A vector pointing from the position to the target
-		PVector desired = PVector.sub(target,position);  
-		// Normalize desired and scale to maximum speed
-		desired.normalize();
-		desired.mult(maxspeed);
-		// Steering = Desired minus Velocity
-		PVector steer = PVector.sub(desired,velocity);
-		steer.limit(maxforce);  // Limit to maximum steering force
-		return steer;
+	@Override
+	public void render() {
+		parent.pushMatrix();
+		parent.fill(127);
+		parent.ellipse(position.x,position.y,10,10);
+		parent.popMatrix();
 	}
+
 	// keeps fish moving in similar direction
 	private PVector align(ArrayList<Guppy> guppies, float pullDist) {
 		// PVector to hold sum of direction
@@ -142,15 +137,15 @@ public class Guppy extends Fish {
 	}
 
 	// steers away from fish that are too close to mouse
-	private PVector flight(float scareDist) {
+	private PVector flight(float scareDist, Predator p) {
 		PVector steer = new PVector();
-		PVector mouse = new PVector(parent.mouseX, parent.mouseY);
+		//PVector predator = new PVector(parent.mouseX, parent.mouseY);
 		// check distance like in align()
-		float d = PVector.dist(position, mouse);
+		float d = PVector.dist(position, p.position);
 		// if d is within range
 		if ((d > 0) && (d < scareDist)) {
 			// get vector away from mouse 
-			PVector diff = PVector.sub(position, mouse);
+			PVector diff = PVector.sub(position, p.position);
 			diff.normalize();
 			// weight by distance ???
 			diff.div(d);

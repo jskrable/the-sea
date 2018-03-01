@@ -1,6 +1,6 @@
 import processing.core.*;
 
-public class Fish {
+abstract class Fish {
 	// variable declarations
 	PVector position;
 	PVector velocity;
@@ -66,5 +66,19 @@ public class Fish {
 		//parent.rotate(theta);
 		parent.ellipse(position.x,position.y,10,10);
 		parent.popMatrix();
+	}
+	
+	// applies a steering force towards a target
+	// STEER = DESIRED MINUS VELOCITY
+	public PVector seek(PVector target) {
+		// A vector pointing from the position to the target
+		PVector desired = PVector.sub(target,position);  
+		// Normalize desired and scale to maximum speed
+		desired.normalize();
+		desired.mult(maxspeed);
+		// Steering = Desired minus Velocity
+		PVector steer = PVector.sub(desired,velocity);
+		steer.limit(maxforce);  // Limit to maximum steering force
+		return steer;
 	}
 }
