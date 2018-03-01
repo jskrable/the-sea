@@ -18,7 +18,7 @@ public class School {
 		return popSize;
 	}
 
-	// method to add fish to array
+	// method to add guppies to array
 	public void addGuppy(Guppy g) {
 		guppies.add(g);
 	}
