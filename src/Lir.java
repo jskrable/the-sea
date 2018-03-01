@@ -1,10 +1,11 @@
 import processing.core.PApplet;
 
 public class Lir extends PApplet {
-	// initialize school object
+	// initialize objects
 	School s;
+	Predator p;
 	// variable set
-	int popSize = 50;
+	int schoolPopSize = 50;
 	float aC = 1.0f;
 	float cC = 1.6f;
 	float sC = 2.0f;
@@ -23,21 +24,24 @@ public class Lir extends PApplet {
 		size(1200,800); 
 	}
 
-	// add fish to the school
+	// add guppies to the school
 	public void setup() {
 		s = new School();
-		for (int i = 0; i < popSize; i++) {
-			Fish f = new Fish(this, 0, 0);
-			s.addFish(f);
+		for (int i = 0; i < schoolPopSize; i++) {
+			Guppy g = new Guppy(this, 0, 0);
+			s.addGuppy(g);
 		}
+		// add one predator
+		p = new Predator(this, 0,0);
 	}
 
 	// draw canvas and run
 	public void draw() {
 		background(255);
-		int popSize = s.run(aC, cC, sC, fC, pullDist, desiredSep, scareDist);
+		int schoolPopSize = s.run(aC, cC, sC, fC, pullDist, desiredSep, scareDist, p);
+		p.run();
 		fill(0);
-		text(("Population Size: " + popSize + " Alignment: " + aC + " Cohesion: " 
+		text(("Population Size: " + schoolPopSize + " Alignment: " + aC + " Cohesion: " 
 				+ cC + " Separation: " + sC + " Flight: " + fC + " Scare Distance: "
 				+ scareDist + " Attraction Distance: " + pullDist
 				+ " Personal Space: " + desiredSep), 12, this.height - 16);
@@ -47,6 +51,6 @@ public class Lir extends PApplet {
 	
 	// add new fish to school on mouse
 	public void mouseDragged() {
-		  s.addFish(new Fish(this, mouseX,mouseY));
+		  s.addGuppy(new Guppy(this, mouseX,mouseY));
 		}
 }

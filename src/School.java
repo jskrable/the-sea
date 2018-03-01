@@ -1,25 +1,25 @@
 import java.util.ArrayList;
 
 public class School {
-	ArrayList<Fish> fishes;
+	ArrayList<Guppy> guppies;
 	// construct array of fish
 	School() {
-		fishes = new ArrayList<Fish>();
+		guppies = new ArrayList<Guppy>();
 	}
 
 	// call fish run method for each in array
 	public int run(float aC, float cC, float sC, float fC, float pullDist, float desiredSep, 
-			float scareDist) {
+			float scareDist, Predator p) {
 		int popSize = 0; 
-		for (Fish f : fishes) {
-			f.run(fishes, aC, cC, sC, fC, pullDist, desiredSep, scareDist);
+		for (Guppy g : guppies) {
+			g.run(guppies, aC, cC, sC, fC, pullDist, desiredSep, scareDist, p);
 			popSize++;
 		}
 		return popSize;
 	}
 
 	// method to add fish to array
-	public void addFish(Fish f) {
-		fishes.add(f);
+	public void addGuppy(Guppy g) {
+		guppies.add(g);
 	}
 }
