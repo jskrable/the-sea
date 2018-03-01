@@ -39,7 +39,7 @@ public class Lir extends PApplet {
 	public void draw() {
 		background(255);
 		int schoolPopSize = s.run(aC, cC, sC, fC, pullDist, desiredSep, scareDist, p);
-		p.run();
+		p.run(s);
 		fill(0);
 		text(("Population Size: " + schoolPopSize + " Alignment: " + aC + " Cohesion: " 
 				+ cC + " Separation: " + sC + " Flight: " + fC + " Scare Distance: "

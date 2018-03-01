@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import processing.core.PApplet;
 
 public class Predator extends Fish{
@@ -16,10 +18,21 @@ public class Predator extends Fish{
 	}
 	
 	// run method for predators
-	public void run() {
+	public void run(School s) {
+		hunt(s);
 		update();
 		borders();
 		render();
+	}
+	
+	// hunt method to aim for guppies
+	private void hunt(School s) {
+		ArrayList<Guppy> targets;
+		targets = s.guppies;
+		
+		for (Guppy g : targets) {
+			
+		}
 	}
 	
 }
