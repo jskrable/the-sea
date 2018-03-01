@@ -7,7 +7,7 @@ public class Lir extends PApplet {
 	// variable set
 	int schoolPopSize = 50;
 	float aC = 1.0f;
-	float cC = 1.6f;
+	float cC = 1.4f;
 	float sC = 2.0f;
 	float fC = 2.2f;
 	float pullDist = 150;

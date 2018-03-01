@@ -4,9 +4,9 @@ import processing.core.PVector;
 
 public class Guppy extends Fish {
 
+	// Auto-generated constructor stub
 	public Guppy(PApplet p, int x, int y) {
 		super(p, x, y);
-		// TODO Auto-generated constructor stub
 	}
 	
 	// applies various swarm forces
@@ -30,7 +30,7 @@ public class Guppy extends Fish {
 
 	}
 	
-	// run method for fish
+	// run method for guppies
 	public void run(ArrayList<Guppy> guppies, float aC, float cC, float sC, float fC, float pullDist,
 			float desiredSep, float scareDist, Predator p) {
 		school(guppies, aC, cC, sC, fC, pullDist, desiredSep, scareDist, p);
@@ -39,6 +39,7 @@ public class Guppy extends Fish {
 		render();
 	}
 	
+	// render override to draw guppy
 	@Override
 	public void render() {
 		parent.pushMatrix();
@@ -47,7 +48,7 @@ public class Guppy extends Fish {
 		parent.popMatrix();
 	}
 
-	// keeps fish moving in similar direction
+	// keeps guppies moving in similar direction
 	private PVector align(ArrayList<Guppy> guppies, float pullDist) {
 		// PVector to hold sum of direction
 		PVector sum = new PVector(0,0);
@@ -136,10 +137,10 @@ public class Guppy extends Fish {
 		}
 	}
 
-	// steers away from fish that are too close to mouse
+	// steers away from fish that are too close to predator
 	private PVector flight(float scareDist, Predator p) {
+		// create empty PVector to hold 
 		PVector steer = new PVector();
-		//PVector predator = new PVector(parent.mouseX, parent.mouseY);
 		// check distance like in align()
 		float d = PVector.dist(position, p.position);
 		// if d is within range
@@ -149,8 +150,7 @@ public class Guppy extends Fish {
 			diff.normalize();
 			// weight by distance ???
 			diff.div(d);
-			steer.add(diff);
-			
+			steer.add(diff);	
 		}
 		if (steer.mag() > 0) {
 			// steering = desired - velocity

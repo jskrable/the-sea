@@ -2,9 +2,9 @@ import processing.core.PApplet;
 
 public class Predator extends Fish{
 
+	// Auto-generated constructor stub
 	public Predator(PApplet p, int x, int y) {
 		super(p, x, y);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override

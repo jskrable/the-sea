@@ -22,10 +22,10 @@ abstract class Fish {
 
 		// random velocity vector
 		velocity = new PVector(p.random(-1,1),p.random(-1,1));
-		r = (float) 3.0;
+		r = 3.0f;
 		// maximums
-		maxspeed = (float) 3;
-		maxforce = (float) 0.05;
+		maxspeed = 3f;
+		maxforce = 0.05f;
 	}
 
 	// applies a PVector acceleration
@@ -40,15 +40,7 @@ abstract class Fish {
 
 	// border behavior
 	protected void borders() {
-		// bounces fish off borders of canvass
-		/*if ((position.x > parent.width) || (position.x < 0)) {
-			velocity.x = velocity.x * -1;
-		}
-		if ((position.y > parent.height) || (position.y < 0)) {
-			velocity.y = velocity.y * -1;
-		}*/
 		// wraps fish around borders
-
 		if (position.x < -r) position.x = parent.width+r;
 		if (position.y < -r) position.y = parent.height+r;
 		if (position.x > parent.width+r) position.x = -r;
@@ -78,7 +70,8 @@ abstract class Fish {
 		desired.mult(maxspeed);
 		// Steering = Desired minus Velocity
 		PVector steer = PVector.sub(desired,velocity);
-		steer.limit(maxforce);  // Limit to maximum steering force
+		// Limit to maximum steering force
+		steer.limit(maxforce);  
 		return steer;
 	}
 }
