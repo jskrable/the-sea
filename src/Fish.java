@@ -24,8 +24,8 @@ abstract class Fish {
 		velocity = new PVector(p.random(-1,1),p.random(-1,1));
 		r = 3.0f;
 		// maximums
-		maxspeed = 3f;
-		maxforce = 0.05f;
+		maxspeed = 2.5f;
+		maxforce = 0.1f;
 	}
 
 	// applies a PVector acceleration

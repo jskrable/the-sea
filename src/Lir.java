@@ -47,9 +47,9 @@ public class Lir extends PApplet {
 		text(("Population Size: " + schoolPopSize + " Alignment: " + aC + " Cohesion: " 
 				+ cC + " Separation: " + sC + " Flight: " + fC + " Scare Distance: "
 				+ scareDist + " Attraction Distance: " + pullDist
-				+ " Personal Space: " + desiredSep + "Sniff Distance: "
+				+ " Personal Space: " + desiredSep + " Sniff Distance: "
 				+ sniffDist), 12, this.height - 16);
-		text("Click and drag to add new fish", this.width - 180, this.height - 16);
+		text("Click and drag to add new fish", 12, 16);
 		
 	}
 	

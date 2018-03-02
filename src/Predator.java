@@ -41,12 +41,13 @@ public class Predator extends Fish{
 			d = PVector.dist(position, g.position);
 			// if distance 
 			if ((d > 0) && (d < min)) {
-				//min = d;
+				min = d;
 				attack = PVector.sub(g.position,velocity);
 			}
 		}
+		// normalize and weight by vicinity 
 		attack.normalize();
-		//attack.div(d);
+		attack.div(d);
 		steer.add(attack);
 		if (steer.mag() > 0) {
 			// steering = desired - velocity
