@@ -3,7 +3,8 @@ import processing.core.PApplet;
 public class Lir extends PApplet {
 	// initialize objects
 	School s;
-	Predator p;
+	//Predator p;
+	Pack p;
 	// variable set
 	int schoolPopSize = 50;
 	float aC = 1.0f;
@@ -33,7 +34,7 @@ public class Lir extends PApplet {
 			s.addGuppy(g);
 		}
 		// add one predator
-		p = new Predator(this, 0,0);
+		p = new Pack();
 	}
 
 	// draw canvas and run

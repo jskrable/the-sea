@@ -11,7 +11,7 @@ public class Guppy extends Fish {
 	
 	// applies various swarm forces
 	protected void school(ArrayList<Guppy> guppies, float aC, float cC, float sC, float fC,
-			int pullDist, int desiredSep, int scareDist, Predator p) {
+			int pullDist, int desiredSep, int scareDist, Pack p) {
 		// init. each force
 		PVector a = align(guppies, pullDist);
 		PVector s = separate(guppies, desiredSep);
@@ -138,10 +138,11 @@ public class Guppy extends Fish {
 	}
 
 	// steers away from fish that are too close to predator
-	private PVector flight(float scareDist, Predator p) {
+	private PVector flight(float scareDist, Pack p) {
 		// create empty PVector to hold 
 		PVector steer = new PVector();
 		// check distance like in align()
+		for (Predator j : p)
 		float d = PVector.dist(position, p.position);
 		// if d is within range
 		if ((d > 0) && (d < scareDist)) {
