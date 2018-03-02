@@ -1,8 +1,8 @@
 # TheSea
 
-_This is a java applet that simulates the schooling behavior of fish. It is based on Daniel Schiffman's implementation of the classic boids Algorithm (Craig Reynolds, 1986), ported to Java._
+_This is a java applet that simulates the schooling behavior of fish. It is based on Daniel Schiffman's processing implementation of the classic boids algorithm (Craig Reynolds, 1986), ported to Java._
 
-A number of changes have been implemented to expand the basic flocking functionality. The Fish class has been extended into two child classes, Guppy and Predator. The guppies will school together based the basic three steerings forces of alignment, cohesion, and separation. They also try to avoid any and all predator objects. The predator attempts to catch guppies.
+A number of changes have been implemented to expand the basic flocking functionality. The Fish class has been extended into two child classes, Guppy and Predator. The guppies will school together based on three basic steering forces of alignment, cohesion, and separation. They also try to avoid any and all predator objects. The predator attempts to catch guppies.
 
 There are a few variables that can be altered to influence the behavior of the program:
 
