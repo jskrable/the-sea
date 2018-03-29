@@ -2,7 +2,7 @@ import java.util.HashMap;
 
 public class DNA {
 
-	private DNA() {
+	public DNA() {
 		HashMap<String, Double> DNA = new HashMap<String, Double>();
 		DNA.put("align", (Math.random()*2));
 		DNA.put("separate", (Math.random()*2));
@@ -12,4 +12,6 @@ public class DNA {
 		DNA.put("space", (Math.random()*200));
 		DNA.put("scare", (Math.random()*200));
 	}
+	
+
 }

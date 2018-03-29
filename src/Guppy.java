@@ -10,10 +10,9 @@ public class Guppy extends Fish {
 	}
 	
 	// applies various swarm forces
-	protected void school(ArrayList<Guppy> guppies, float aC, float cC, float sC, float fC,
-			int pullDist, int desiredSep, int scareDist, Predator p) {
+	protected void school(ArrayList<Guppy> guppies, DNA dna, Predator p) {
 		// init. each force
-		PVector a = align(guppies, pullDist);
+		PVector a = align(guppies, dna.get(Object key));
 		PVector s = separate(guppies, desiredSep);
 		PVector c = cohesion(guppies, pullDist);
 		PVector f = flight(scareDist, p);
