@@ -5,8 +5,8 @@ import processing.core.PVector;
 public class Guppy extends Fish {
 
 	// Auto-generated constructor stub
-	public Guppy(PApplet p, int x, int y) {
-		super(p, x, y);
+	public Guppy(PApplet p, int x, int y, DNA d) {
+		super(p, x, y, d);
 	}
 	
 	// applies various swarm forces

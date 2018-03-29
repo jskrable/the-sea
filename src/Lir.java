@@ -4,6 +4,7 @@ public class Lir extends PApplet {
 	// initialize objects
 	School s;
 	Predator p;
+	DNA dna;
 	// variable set
 	int schoolPopSize = 50;
 	float aC = 1.0f;
@@ -29,7 +30,7 @@ public class Lir extends PApplet {
 	public void setup() {
 		s = new School();
 		for (int i = 0; i < schoolPopSize; i++) {
-			Guppy g = new Guppy(this, 0, 0);
+			Guppy g = new Guppy(this, 0, 0, dna);
 			s.addGuppy(g);
 		}
 		// add one predator
@@ -55,6 +56,6 @@ public class Lir extends PApplet {
 	
 	// add new fish to school on mouse
 	public void mouseDragged() {
-		  s.addGuppy(new Guppy(this, mouseX,mouseY));
+		  s.addGuppy(new Guppy(this, mouseX, mouseY, dna));
 		}
 }

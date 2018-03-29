@@ -10,7 +10,7 @@ abstract class Fish {
 	PApplet parent;
 
 	// Fish constructor
-	public Fish(PApplet p, int x, int y) {
+	public Fish(PApplet p, int x, int y, DNA d) {
 		// PApplet to reference canvas
 		parent = p;
 		if ((x==0) && (y==0)) {

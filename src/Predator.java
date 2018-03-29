@@ -19,7 +19,7 @@ public class Predator extends Fish{
 	
 	// run method for predators
 	public void run(School s, float sniffDist) {
-		applyForce(hunt(s, sniffDist).mult(4.0f));
+		applyForce(hunt(s, sniffDist).mult(6.0f));
 		update();
 		borders();
 		render();
