@@ -34,7 +34,7 @@ public class Lir extends PApplet {
 			s.addGuppy(g);
 		}
 		// add one predator
-		p = new Predator(this, 0,0);
+		p = new Predator(this, 0,0,dna);
 	}
 
 	// draw canvas and run
