@@ -10,17 +10,17 @@ public class Guppy extends Fish {
 	}
 	
 	// applies various swarm forces
-	protected void school(ArrayList<Guppy> guppies, DNA dna, Predator p) {
+	protected void school(ArrayList<Guppy> guppies, Predator p) {
 		// init. each force
-		PVector a = align(guppies, dna.get(Object key));
-		PVector s = separate(guppies, desiredSep);
-		PVector c = cohesion(guppies, pullDist);
-		PVector f = flight(scareDist, p);
+		PVector a = align(guppies, this.dna.getGene("pull"));
+		PVector s = separate(guppies, this.dna.getGene("space"));
+		PVector c = cohesion(guppies, this.dna.getGene("pull"));
+		PVector f = flight(this.dna.getGene("scare"), p);
 		// apply weights
-		a.mult(aC);
-		s.mult(sC);
-		c.mult(cC);
-		f.mult(fC);
+		a.mult(this.dna.getGene("align"));
+		s.mult(this.dna.getGene("separate"));
+		c.mult(this.dna.getGene("cohesion"));
+		f.mult(this.dna.getGene("flight"));
 		// apply each force
 		applyForce(c);
 		applyForce(s);
@@ -30,9 +30,8 @@ public class Guppy extends Fish {
 	}
 	
 	// run method for guppies
-	public void run(ArrayList<Guppy> guppies, float aC, float cC, float sC, float fC, 
-			int pullDist, int desiredSep, int scareDist, Predator p) {
-		school(guppies, aC, cC, sC, fC, pullDist, desiredSep, scareDist, p);
+	public void run(ArrayList<Guppy> guppies, Predator p) {
+		school(guppies, p);
 		update();
 		borders();
 		render();

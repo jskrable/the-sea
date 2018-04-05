@@ -8,6 +8,7 @@ abstract class Fish {
 	float maxforce;
 	float maxspeed;
 	PApplet parent;
+	DNA dna;
 
 	// Fish constructor
 	public Fish(PApplet p, int x, int y, DNA d) {

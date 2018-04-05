@@ -41,7 +41,7 @@ public class Lir extends PApplet {
 	public void draw() {
 		background(255);
 		// add school of guppies
-		int schoolPopSize = s.run(aC, cC, sC, fC, pullDist, desiredSep, scareDist, p);
+		int schoolPopSize = s.run(p);
 		// add a predator
 		p.run(s, sniffDist);
 		fill(0);
