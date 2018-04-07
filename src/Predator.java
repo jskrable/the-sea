@@ -6,7 +6,7 @@ public class Predator extends Fish{
 
 	// Auto-generated constructor stub
 	public Predator(PApplet p, int x, int y, DNA d) {
-		super(p, x, y, d);
+		super(p, x, y);
 	}
 	
 	@Override
@@ -18,22 +18,22 @@ public class Predator extends Fish{
 	}
 	
 	// run method for predators
-	public void run(School s, float sniffDist) {
-		applyForce(hunt(s, sniffDist).mult(6.0f));
+	public void run(School s) {
+		applyForce(hunt(s).mult(6.0f));
 		update();
 		borders();
 		render();
 	}
 	
 	// hunt method to aim for guppies
-	private PVector hunt(School s, float sniffDist) {
+	private PVector hunt(School s) {
 		// pull in school of guppies
 		ArrayList<Guppy> guppies;
 		guppies = s.guppies;
 		// initialize variables;
 		PVector steer = new PVector();
 		PVector attack = new PVector();
-		float min = sniffDist;
+		float min = 200;
 		float d = 0;
 		// loop thru guppies to attack
 		for (Guppy g : guppies) {

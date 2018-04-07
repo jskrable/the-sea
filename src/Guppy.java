@@ -1,33 +1,45 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import processing.core.PApplet;
 import processing.core.PVector;
 
 public class Guppy extends Fish {
-
+	
 	// Auto-generated constructor stub
-	public Guppy(PApplet p, int x, int y, DNA d) {
-		super(p, x, y, d);
-		new DNA();
+	public Guppy(PApplet p, int x, int y, DNA dna) {
+		super(p, x, y);
+		
+		if (dna == null) {
+			HashMap<String, Float> geneMap = new HashMap<String, Float>();
+			geneMap.put("align", (float) Math.random()*2);
+			geneMap.put("separate", (float) Math.random()*2);
+			geneMap.put("cohesion", (float) Math.random()*2);
+			geneMap.put("flight", (float) Math.random()*2);
+			geneMap.put("pull", (float) Math.random()*200);
+			geneMap.put("space", (float) Math.random()*200);
+			geneMap.put("scare", (float) Math.random()*200);
+			this.setGenes(geneMap);
+		}
 	}
 	
 	// applies various swarm forces
 	protected void school(ArrayList<Guppy> guppies, Predator p) {
 		// init. each force
-		PVector a = align(guppies, this.dna.getGene("pull"));
-		PVector s = separate(guppies, this.dna.getGene("space"));
-		PVector c = cohesion(guppies, this.dna.getGene("pull"));
-		PVector f = flight(this.dna.getGene("scare"), p);
+		PVector a = align(guppies);
+		PVector s = separate(guppies);
+		PVector c = cohesion(guppies);
+		PVector f = flight(p);
 		// apply weights
-		a.mult(this.dna.getGene("align"));
-		s.mult(this.dna.getGene("separate"));
-		c.mult(this.dna.getGene("cohesion"));
-		f.mult(this.dna.getGene("flight"));
+		a.mult(this.getGene("align"));
+		s.mult(this.getGene("separate"));
+		c.mult(this.getGene("cohesion"));
+		f.mult(this.getGene("flight"));
 		// apply each force
 		applyForce(c);
 		applyForce(s);
 		applyForce(a);
 		applyForce(f);
-
 	}
 	
 	// run method for guppies
@@ -48,11 +60,13 @@ public class Guppy extends Fish {
 	}
 
 	// keeps guppies moving in similar direction
-	private PVector align(ArrayList<Guppy> guppies, float pullDist) {
+	private PVector align(ArrayList<Guppy> guppies) {
 		// PVector to hold sum of direction
 		PVector sum = new PVector(0,0);
 		// counter to divide by
 		int count = 0;
+		// get pull gene for comparison
+		float pullDist = this.getGene("pull");
 		// loop through all fish
 		for (Guppy other : guppies) {
 			// measure distance between current fish and others
@@ -80,9 +94,10 @@ public class Guppy extends Fish {
 	}
 
 	// steers away from fish that are too close
-	private PVector separate(ArrayList<Guppy> guppies, float desiredSep) {
+	private PVector separate(ArrayList<Guppy> guppies) {
 		PVector steer = new PVector();
 		int count = 0;
+		float desiredSep = this.getGene("space");
 		// loop through all fish
 		for (Guppy other : guppies) {
 			// check distance like in align()
@@ -116,9 +131,10 @@ public class Guppy extends Fish {
 	}
 
 	// steers fish towards center of mass
-	private PVector cohesion(ArrayList<Guppy> guppies, float pullDist) {
+	private PVector cohesion(ArrayList<Guppy> guppies) {
 		PVector sum = new PVector(0,0);
 		int count = 0;
+		float pullDist = this.getGene("pull");
 		// loop thru all fish
 		for (Guppy other : guppies) {
 			// if within pull distance (
@@ -137,9 +153,10 @@ public class Guppy extends Fish {
 	}
 
 	// steers away from fish that are too close to predator
-	private PVector flight(float scareDist, Predator p) {
+	private PVector flight(Predator p) {
 		// create empty PVector to hold 
 		PVector steer = new PVector();
+		float scareDist = this.getGene("scare");
 		// check distance like in align()
 		float d = PVector.dist(position, p.position);
 		// if d is within range

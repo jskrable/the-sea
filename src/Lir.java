@@ -7,14 +7,6 @@ public class Lir extends PApplet {
 	DNA dna;
 	// variable set
 	int schoolPopSize = 50;
-	float aC = 1.0f;
-	float cC = 1.4f;
-	float sC = 2.0f;
-	float fC = 2.6f;
-	int pullDist = 150;
-	int desiredSep = 40;
-	int scareDist = 100;
-	int sniffDist = 200;
 
 	// PApplet extension
 	public static void main(String[] args) {
@@ -34,7 +26,7 @@ public class Lir extends PApplet {
 			s.addGuppy(g);
 		}
 		// add one predator
-		p = new Predator(this, 0,0,dna);
+		p = new Predator(this, 0, 0, dna);
 	}
 
 	// draw canvas and run
@@ -43,13 +35,9 @@ public class Lir extends PApplet {
 		// add school of guppies
 		int schoolPopSize = s.run(p);
 		// add a predator
-		p.run(s, sniffDist);
+		p.run(s);
 		fill(0);
-		text(("Population Size: " + schoolPopSize + " Alignment: " + aC + " Cohesion: " 
-				+ cC + " Separation: " + sC + " Flight: " + fC + " Scare Distance: "
-				+ scareDist + " Attraction Distance: " + pullDist
-				+ " Personal Space: " + desiredSep + " Sniff Distance: "
-				+ sniffDist), 12, this.height - 16);
+		text(("Population Size: " + schoolPopSize), 12, this.height - 16);
 		text("Click and drag to add new fish", 12, 16);
 		
 	}

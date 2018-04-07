@@ -1,6 +1,6 @@
 import processing.core.*;
 
-abstract class Fish {
+abstract class Fish extends DNA{
 	// variable declarations
 	PVector position;
 	PVector velocity;
@@ -8,10 +8,9 @@ abstract class Fish {
 	float maxforce;
 	float maxspeed;
 	PApplet parent;
-	DNA dna;
 
 	// Fish constructor
-	public Fish(PApplet p, int x, int y, DNA d) {
+	public Fish(PApplet p, int x, int y) {
 		// PApplet to reference canvas
 		parent = p;
 		if ((x==0) && (y==0)) {
@@ -20,7 +19,6 @@ abstract class Fish {
 		} else {
 			position = new PVector(x,y);
 		}
-
 		// random velocity vector
 		velocity = new PVector(p.random(-1,1),p.random(-1,1));
 		r = 3.0f;
