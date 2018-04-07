@@ -2,14 +2,14 @@ import processing.core.PApplet;
 
 public class Lir extends PApplet {
 	// initialize objects
-	School s;
-	Predator p;
+	Population pop;
+	Predator pred;
 	DNA dna;
 	// variable set
 	int schoolPopSize = 50;
-	int lifespan = 1000;
+	int lifespan = 500;
 	int epoch = 0;
-	int counter = 0;
+	int timer = 0;
 
 	// PApplet extension
 	public static void main(String[] args) {
@@ -23,39 +23,41 @@ public class Lir extends PApplet {
 
 	// add guppies to the school
 	public void setup() {
-		s = new School();
+		pop = new Population();
 		for (int i = 0; i < schoolPopSize; i++) {
 			Guppy g = new Guppy(this, 0, 0, dna);
-			s.addGuppy(g);
+			pop.addGuppy(g);
 		}
 		// add one predator
-		p = new Predator(this, 0, 0, dna);
+		pred = new Predator(this, 0, 0, dna);
 	}
 
 	// draw canvas and run
 	public void draw() {
 		background(255);
 		// add school of guppies
-		int schoolPopSize = s.run(p);
+		int schoolPopSize = pop.run(pred);
 		// add a predator
-		p.run(s);
-		fill(0);
-		text(("Population Size: " + schoolPopSize + "      Timer: " + counter + "      Epoch: " + epoch),
-				12, this.height - 16);
-		text("Click and drag to add new fish", 12, 16);
-		
-		counter++;
-		if (counter == lifespan) {
-			// evaluate scores
-			// natural selection
-			counter = 0;
+		pred.run(pop);
+		// increment timer
+		timer++;
+		// process generation
+		if (timer == lifespan) {
+			pop.eval(pred);
+			pop.naturalSelection();
+			timer = 0;
 			epoch++;
 		}
+		// help text
+		fill(0);
+		text(("Population Size: " + schoolPopSize + "      Timer: " + timer + "      Epoch: " + epoch),
+				12, this.height - 16);
+		text("Click and drag to add new fish", 12, 16);
 		
 	}
 	
 	// add new fish to school on mouse
 	public void mouseDragged() {
-		  s.addGuppy(new Guppy(this, mouseX, mouseY, dna));
+		  pop.addGuppy(new Guppy(this, mouseX, mouseY, dna));
 		}
 }
