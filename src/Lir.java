@@ -7,6 +7,9 @@ public class Lir extends PApplet {
 	DNA dna;
 	// variable set
 	int schoolPopSize = 50;
+	int lifespan = 1000;
+	int epoch = 0;
+	int counter = 0;
 
 	// PApplet extension
 	public static void main(String[] args) {
@@ -37,8 +40,17 @@ public class Lir extends PApplet {
 		// add a predator
 		p.run(s);
 		fill(0);
-		text(("Population Size: " + schoolPopSize), 12, this.height - 16);
+		text(("Population Size: " + schoolPopSize + "      Timer: " + counter + "      Epoch: " + epoch),
+				12, this.height - 16);
 		text("Click and drag to add new fish", 12, 16);
+		
+		counter++;
+		if (counter == lifespan) {
+			// evaluate scores
+			// natural selection
+			counter = 0;
+			epoch++;
+		}
 		
 	}
 	

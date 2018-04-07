@@ -8,6 +8,7 @@ abstract class Fish extends DNA{
 	float maxforce;
 	float maxspeed;
 	PApplet parent;
+	float fitness;
 
 	// Fish constructor
 	public Fish(PApplet p, int x, int y) {
@@ -25,6 +26,7 @@ abstract class Fish extends DNA{
 		// maximums
 		maxspeed = 2.5f;
 		maxforce = 0.1f;
+		fitness = 0;
 	}
 
 	// applies a PVector acceleration

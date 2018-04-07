@@ -10,6 +10,7 @@ public class Guppy extends Fish {
 	public Guppy(PApplet p, int x, int y, DNA dna) {
 		super(p, x, y);
 		
+		// if incoming dna is null, assign random genes
 		if (dna == null) {
 			HashMap<String, Float> geneMap = new HashMap<String, Float>();
 			geneMap.put("align", (float) Math.random()*2);
@@ -17,10 +18,19 @@ public class Guppy extends Fish {
 			geneMap.put("cohesion", (float) Math.random()*2);
 			geneMap.put("flight", (float) Math.random()*2);
 			geneMap.put("pull", (float) Math.random()*200);
-			geneMap.put("space", (float) Math.random()*200);
+			geneMap.put("space", (float) Math.random()*(160)+40);
 			geneMap.put("scare", (float) Math.random()*200);
 			this.setGenes(geneMap);
 		}
+	}
+	// calculates fitness score for guppy
+	protected void getFitness(Predator p) {
+		float d = PVector.dist(position, p.position);
+		this.fitness = d;
+		if (d == 0) {
+			fitness /= 75;
+		}
+		
 	}
 	
 	// applies various swarm forces
@@ -105,10 +115,9 @@ public class Guppy extends Fish {
 			// if d is within range
 			if ((d > 0) && (d < desiredSep)) {
 				// get vector away from neighbor 
-				// USE THIS FOR FLEE METHOD??
 				PVector diff = PVector.sub(position,  other.position);
 				diff.normalize();
-				// weight by distance ???
+				// weight by distance
 				diff.div(d*2);
 				steer.add(diff);
 				count++;
@@ -152,9 +161,9 @@ public class Guppy extends Fish {
 		}
 	}
 
-	// steers away from fish that are too close to predator
+	// steers fish away that are too close to predator
 	private PVector flight(Predator p) {
-		// create empty PVector to hold 
+		// create empty PVector to hold steering
 		PVector steer = new PVector();
 		float scareDist = this.getGene("scare");
 		// check distance like in align()

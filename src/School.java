@@ -2,10 +2,17 @@ import java.util.ArrayList;
 
 public class School {
 	ArrayList<Guppy> guppies;
+	
 	// construct array of fish
 	School() {
 		guppies = new ArrayList<Guppy>();
 	}
+	
+	// method to add guppies to array
+	public void addGuppy(Guppy g) {
+		guppies.add(g);
+	}
+
 
 	// call fish run method for each in array
 	public int run(Predator p) {
@@ -15,10 +22,5 @@ public class School {
 			popSize++;
 		}
 		return popSize;
-	}
-
-	// method to add guppies to array
-	public void addGuppy(Guppy g) {
-		guppies.add(g);
 	}
 }
