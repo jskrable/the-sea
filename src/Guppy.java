@@ -7,6 +7,7 @@ public class Guppy extends Fish {
 	// Auto-generated constructor stub
 	public Guppy(PApplet p, int x, int y, DNA d) {
 		super(p, x, y, d);
+		new DNA();
 	}
 	
 	// applies various swarm forces
