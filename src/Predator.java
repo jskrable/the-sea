@@ -18,18 +18,18 @@ public class Predator extends Fish{
 	}
 	
 	// run method for predators
-	public void run(School s) {
-		applyForce(hunt(s).mult(6.0f));
+	public void run(Population pop) {
+		applyForce(hunt(pop).mult(6.0f));
 		update();
 		borders();
 		render();
 	}
 	
 	// hunt method to aim for guppies
-	private PVector hunt(School s) {
+	private PVector hunt(Population pop) {
 		// pull in school of guppies
 		ArrayList<Guppy> guppies;
-		guppies = s.guppies;
+		guppies = pop.guppies;
 		// initialize variables;
 		PVector steer = new PVector();
 		PVector attack = new PVector();

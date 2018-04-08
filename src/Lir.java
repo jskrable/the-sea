@@ -45,6 +45,8 @@ public class Lir extends PApplet {
 		if (timer == lifespan) {
 			pop.eval(pred);
 			pop.naturalSelection();
+			String filename = "population_summary_" + epoch + ".json";
+			pop.writeDataFile(filename);
 			timer = 0;
 			epoch++;
 		}
