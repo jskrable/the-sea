@@ -7,7 +7,7 @@ public class Lir extends PApplet {
 	DNA dna;
 	// variable set
 	int popSize = 50;
-	int lifespan = 500;
+	int lifespan = 250;
 	int epoch = 0;
 	int timer = 0;
 
@@ -36,7 +36,7 @@ public class Lir extends PApplet {
 	public void draw() {
 		background(255);
 		// add school of guppies
-		int popSize = pop.run(pred);
+		int displayPopSize = pop.run(pred);
 		// add a predator
 		pred.run(pop);
 		// increment timer
@@ -52,7 +52,7 @@ public class Lir extends PApplet {
 		}
 		// help text
 		fill(0);
-		text(("Population Size: " + popSize + "      Timer: " + timer + "      Epoch: " + epoch),
+		text(("Population Size: " + displayPopSize + "      Timer: " + timer + "      Epoch: " + epoch),
 				12, this.height - 16);
 		text("Click and drag to add new fish", 12, 16);
 		

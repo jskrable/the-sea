@@ -18,8 +18,6 @@ public class Population {
 	// construct array of fish
 	public Population(PApplet p) {
 		guppies = new ArrayList<Guppy>();
-		matingPool = new ArrayList<Guppy>();
-		offspring = new ArrayList<Guppy>();
 		parent = p;
 	}
 	
@@ -40,6 +38,8 @@ public class Population {
 	
 	// evaluate a population of guppies
 	public void eval(Predator p) {
+		// init mating pool
+		matingPool = new ArrayList<Guppy>();
 		// init max fitness for normalization
 		float maxFitness = 0;
 		// loop thru guppies and get fitness score
@@ -69,9 +69,11 @@ public class Population {
 	}
 	
 	// create a new generation of guppies
-	public void naturalSelection(int popsize) {
+	public void naturalSelection(int maxpop) {
+		// init offspring list
+		offspring = new ArrayList<Guppy>();
 		// iterate thru population
-		int n = popsize;
+		int n = maxpop;
 		// use standard for loop to avoid concurrent modification
 		for (int i=0; i < n; i++) {
 			// get a random guppy from mating pool
@@ -82,14 +84,14 @@ public class Population {
 			Guppy parent2 = this.matingPool.get(randomMate);
 			// create a new child guppy
 			DNA childDNA = parent1.mating(parent2);
-			// System.out.println(childDNA.genes);
 			Guppy child = new Guppy(parent, 0, 0, childDNA);
 			child.mutation();
 			// add to offspring pool
 			offspring.add(child);
 		} 
 		// replace current population with new one
-		guppies = offspring;
+		this.guppies.clear();
+		this.guppies.addAll(offspring);
 	}
 	
 	public void writeDataFile(String filename) {
