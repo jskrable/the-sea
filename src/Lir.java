@@ -13,7 +13,7 @@ public class Lir extends PApplet {
 	int epoch = 0;
 	int timer = 0;
 	String timestamp = new SimpleDateFormat("yyyy-MM-dd HHmmss").format(new java.util.Date());
-	String filepath = System.getProperty("user.dir") + "/data/run_" + timestamp + "/";
+	String filepath = System.getProperty("user.dir") + "/data/run " + timestamp + "/";
 	boolean mkdatadir = new File(filepath).mkdirs();
 
 	// PApplet extension
@@ -50,7 +50,7 @@ public class Lir extends PApplet {
 		if (timer == lifespan) {
 			pop.eval(pred);
 			String filename = "population_summary_" + epoch + ".json";
-			filepath += filename;
+			filepath = filepath.substring(0,filepath.lastIndexOf("/")) + filename;
 			pop.writeDataFile(filepath);
 			pop.naturalSelection(popSize);
 			timer = 0;

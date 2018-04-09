@@ -66,7 +66,6 @@ public class DNA {
 		for (HashMap.Entry<String, Float> entry : this.genes.entrySet()) {	
 			// for a small percentage of genes
 			if (Math.random() < mutationRate) {
-				// get keys
 				String key = entry.getKey();
 				// assign random values within range
 				if (key == "pull" || key == "scare") {

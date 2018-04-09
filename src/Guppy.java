@@ -19,7 +19,7 @@ public class Guppy extends Fish {
 	// calculates fitness score for guppy
 	protected float getFitness(ArrayList<Guppy> guppies, Predator p) {
 		float safetyDist = PVector.dist(position, p.position);
-		this.fitness = safetyDist;
+		this.fitness = (1/safetyDist)*(10^6);
 		// to hold friend distance sum
 		float sum = 0;
 		// loop thru all fish and add distances
