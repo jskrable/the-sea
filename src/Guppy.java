@@ -10,7 +10,9 @@ public class Guppy extends Fish {
 		super(p, x, y);
 		
 		// if incoming dna is null, assign random genes
-		if (dna == null) {
+		if (dna != null) {
+			this.setGenes(dna.genes);
+		} else {
 			this.randomGenes();
 		}
 	}
