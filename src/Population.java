@@ -16,6 +16,8 @@ public class Population {
 	// construct array of fish
 	Population() {
 		guppies = new ArrayList<Guppy>();
+		matingPool = new ArrayList<Guppy>();
+		offspring = new ArrayList<Guppy>();
 	}
 	
 	// method to add guppies to array
@@ -35,24 +37,28 @@ public class Population {
 	
 	// evaluate a population of guppies
 	public void eval(Predator p) {
+		// init max fitness for normalization
 		float maxFitness = 0;
+		// loop thru guppies and get fitness score
 		for (Guppy g : guppies) {
 			g.getFitness(p);
-			if (g.fitness > 0) {
+			// make sure max is highest
+			if (g.fitness > maxFitness) {
 				maxFitness = g.fitness;
 			}
 		}
-		
+		// loop thru guppies and normalize by max
 		for (Guppy g : guppies) {
 			if (maxFitness != 0) {
 				g.fitness /= maxFitness;
 			}
 		}
-		
+		// loop thru guppies and add to mating pool
 		for (Guppy g : guppies) {
 			if (g.fitness > 0) {
-				float n = g.fitness * 100;
-				for (int i = 0; i < n; i++) {
+				// higher fitness scores get more entries in mating pool
+				int n = Math.round(g.fitness * 100);
+				for (int i=1; i<n; i++) {
 					matingPool.add(g);
 				}
 			}
@@ -87,6 +93,8 @@ public class Population {
 		// add fitness scores to file
 		for (Guppy g : guppies) {
 			json.put("Fitness", g.fitness);
+			json.put("DNA", g.genes);
+			//json.put("Guppy", g);
 		}
 		String filepath = "/Users/jskra/Documents/" + filename;
 		

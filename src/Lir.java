@@ -44,9 +44,9 @@ public class Lir extends PApplet {
 		// process generation
 		if (timer == lifespan) {
 			pop.eval(pred);
-			pop.naturalSelection();
 			String filename = "population_summary_" + epoch + ".json";
 			pop.writeDataFile(filename);
+			pop.naturalSelection();
 			timer = 0;
 			epoch++;
 		}

@@ -23,13 +23,13 @@ public class Guppy extends Fish {
 		}
 	}
 	// calculates fitness score for guppy
-	protected void getFitness(Predator p) {
+	protected float getFitness(Predator p) {
 		float d = PVector.dist(position, p.position);
 		this.fitness = d;
 		if (d == 0) {
 			fitness /= 75;
 		}
-		
+		return this.fitness;
 	}
 	
 	// applies various swarm forces
