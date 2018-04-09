@@ -45,7 +45,7 @@ public class Guppy extends Fish {
 		// punish fish who are eaten
 		boolean eaten = (safetyDist <= 10);
 		if (eaten) {
-			fitness /= 75;
+			fitness /= (10^6);
 		}
 		return this.fitness;
 	}

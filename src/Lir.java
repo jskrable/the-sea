@@ -9,11 +9,12 @@ public class Lir extends PApplet {
 	DNA dna;
 	// variable set
 	int popSize = 50;
-	int lifespan = 500;
+	int lifespan = 1500;
 	int epoch = 0;
 	int timer = 0;
 	String timestamp = new SimpleDateFormat("yyyy-MM-dd HHmmss").format(new java.util.Date());
-	String filepath = System.getProperty("user.dir") + "/data/run " + timestamp + "/";
+	String filepath = System.getProperty("user.dir") + "/data/run " + timestamp + 
+			"/population_summary_" + epoch + ".json";
 	boolean mkdatadir = new File(filepath).mkdirs();
 
 	// PApplet extension
@@ -49,9 +50,7 @@ public class Lir extends PApplet {
 		// process generation
 		if (timer == lifespan) {
 			pop.eval(pred);
-			String filename = "population_summary_" + epoch + ".json";
-			filepath = filepath.substring(0,filepath.lastIndexOf("/")) + filename;
-			pop.writeDataFile(filepath);
+			//pop.writeDataFile(filepath);
 			pop.naturalSelection(popSize);
 			timer = 0;
 			epoch++;
