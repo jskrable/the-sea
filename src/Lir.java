@@ -6,7 +6,7 @@ public class Lir extends PApplet {
 	Predator pred;
 	DNA dna;
 	// variable set
-	int schoolPopSize = 50;
+	int popSize = 50;
 	int lifespan = 500;
 	int epoch = 0;
 	int timer = 0;
@@ -24,7 +24,7 @@ public class Lir extends PApplet {
 	// add guppies to the school
 	public void setup() {
 		pop = new Population(this);
-		for (int i = 0; i < schoolPopSize; i++) {
+		for (int i = 0; i < popSize; i++) {
 			Guppy g = new Guppy(this, 0, 0, dna);
 			pop.addGuppy(g);
 		}
@@ -36,7 +36,7 @@ public class Lir extends PApplet {
 	public void draw() {
 		background(255);
 		// add school of guppies
-		int displayPop = pop.run(pred);
+		int popSize = pop.run(pred);
 		// add a predator
 		pred.run(pop);
 		// increment timer
@@ -46,13 +46,13 @@ public class Lir extends PApplet {
 			pop.eval(pred);
 			String filename = "population_summary_" + epoch + ".json";
 			pop.writeDataFile(filename);
-			pop.naturalSelection(schoolPopSize);
+			pop.naturalSelection(popSize);
 			timer = 0;
 			epoch++;
 		}
 		// help text
 		fill(0);
-		text(("Population Size: " + displayPop + "      Timer: " + timer + "      Epoch: " + epoch),
+		text(("Population Size: " + popSize + "      Timer: " + timer + "      Epoch: " + epoch),
 				12, this.height - 16);
 		text("Click and drag to add new fish", 12, 16);
 		
