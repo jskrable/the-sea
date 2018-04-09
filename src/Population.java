@@ -1,6 +1,7 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import processing.core.PApplet;
 import processing.data.JSONArray;
 import processing.data.JSONObject;
@@ -68,9 +69,11 @@ public class Population {
 	}
 	
 	// create a new generation of guppies
-	public void naturalSelection() {
+	public void naturalSelection(int popsize) {
 		// iterate thru population
-		for (Guppy g : guppies) {
+		int n = popsize;
+		// use standard for loop to avoid concurrent modification
+		for (int i=0; i < n; i++) {
 			// get a random guppy from mating pool
 			int randomMate = (int)(Math.random()*matingPool.size());
 			Guppy parent1 = this.matingPool.get(randomMate);
@@ -80,14 +83,13 @@ public class Population {
 			// create a new child guppy
 			DNA childDNA = parent1.mating(parent2);
 			// System.out.println(childDNA.genes);
-			// not taking new DNA
 			Guppy child = new Guppy(parent, 0, 0, childDNA);
 			child.mutation();
 			// add to offspring pool
 			offspring.add(child);
 		} 
 		// replace current population with new one
-		this.guppies = offspring;
+		guppies = offspring;
 	}
 	
 	public void writeDataFile(String filename) {
@@ -104,7 +106,7 @@ public class Population {
 			array.append(entry);
 		}
 		json.put("records", array);
-		String filepath = "/Users/jskra/Documents/" + filename;
+		String filepath = "/Users/jskrable/Documents/" + filename;
 		
 		// write file
 		try (FileWriter file = new FileWriter(filepath)) {
