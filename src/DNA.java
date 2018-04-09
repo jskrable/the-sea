@@ -6,6 +6,18 @@ public class DNA {
 	// initialize empty map of genes
 	HashMap<String, Float> genes = new HashMap<String, Float>();
 	
+	// sets random genes within range
+	public void randomGenes() {
+		HashMap<String, Float> geneMap = new HashMap<String, Float>();
+		geneMap.put("align", (float) Math.random()*2);
+		geneMap.put("separate", (float) Math.random()*2);
+		geneMap.put("cohesion", (float) Math.random()*2);
+		geneMap.put("flight", (float) Math.random()*2);
+		geneMap.put("pull", (float) Math.random()*200);
+		geneMap.put("space", (float) Math.random()*(160)+40);
+		geneMap.put("scare", (float) Math.random()*200);
+		this.setGenes(geneMap);
+	}
 	// setter for full gene map
 	public void setGenes(HashMap<String, Float> geneMap) {
 		this.genes = geneMap;
@@ -41,10 +53,11 @@ public class DNA {
 				// 50% chance from parent 2
 				childGenes.put(key, mate.getGene(key));
 			}
-			childDNA.setGenes(childGenes);
 			// re-randomize
 			coin = Math.random();
 		}
+		// add genes to child DNA
+		childDNA.setGenes(childGenes);
 		return childDNA;
 	}
 	

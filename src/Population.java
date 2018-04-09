@@ -69,9 +69,9 @@ public class Population {
 	
 	// create a new generation of guppies
 	public void naturalSelection() {
-		// iterate thru mating pool
-		for (Guppy m : matingPool) {
-			// get a random guppy
+		// iterate thru population
+		for (Guppy g : guppies) {
+			// get a random guppy from mating pool
 			int randomMate = (int)(Math.random()*matingPool.size());
 			Guppy parent1 = this.matingPool.get(randomMate);
 			// find a mate
@@ -79,6 +79,8 @@ public class Population {
 			Guppy parent2 = this.matingPool.get(randomMate);
 			// create a new child guppy
 			DNA childDNA = parent1.mating(parent2);
+			// System.out.println(childDNA.genes);
+			// not taking new DNA
 			Guppy child = new Guppy(parent, 0, 0, childDNA);
 			child.mutation();
 			// add to offspring pool

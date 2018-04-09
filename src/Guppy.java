@@ -11,15 +11,7 @@ public class Guppy extends Fish {
 		
 		// if incoming dna is null, assign random genes
 		if (dna == null) {
-			HashMap<String, Float> geneMap = new HashMap<String, Float>();
-			geneMap.put("align", (float) Math.random()*2);
-			geneMap.put("separate", (float) Math.random()*2);
-			geneMap.put("cohesion", (float) Math.random()*2);
-			geneMap.put("flight", (float) Math.random()*2);
-			geneMap.put("pull", (float) Math.random()*200);
-			geneMap.put("space", (float) Math.random()*(160)+40);
-			geneMap.put("scare", (float) Math.random()*200);
-			this.setGenes(geneMap);
+			this.randomGenes();
 		}
 	}
 	// calculates fitness score for guppy
