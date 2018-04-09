@@ -1,3 +1,5 @@
+import java.io.File;
+import java.text.SimpleDateFormat;
 import processing.core.PApplet;
 
 public class Lir extends PApplet {
@@ -7,9 +9,12 @@ public class Lir extends PApplet {
 	DNA dna;
 	// variable set
 	int popSize = 50;
-	int lifespan = 250;
+	int lifespan = 500;
 	int epoch = 0;
 	int timer = 0;
+	String timestamp = new SimpleDateFormat("yyyy-MM-dd HHmmss").format(new java.util.Date());
+	String filepath = System.getProperty("user.dir") + "/data/run_" + timestamp + "/";
+	boolean mkdatadir = new File(filepath).mkdirs();
 
 	// PApplet extension
 	public static void main(String[] args) {
@@ -45,7 +50,8 @@ public class Lir extends PApplet {
 		if (timer == lifespan) {
 			pop.eval(pred);
 			String filename = "population_summary_" + epoch + ".json";
-			pop.writeDataFile(filename);
+			filepath += filename;
+			pop.writeDataFile(filepath);
 			pop.naturalSelection(popSize);
 			timer = 0;
 			epoch++;

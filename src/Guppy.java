@@ -15,11 +15,36 @@ public class Guppy extends Fish {
 			this.randomGenes();
 		}
 	}
+	
 	// calculates fitness score for guppy
-	protected float getFitness(Predator p) {
-		float d = PVector.dist(position, p.position);
-		this.fitness = d;
-		if (d == 0) {
+	protected float getFitness(ArrayList<Guppy> guppies, Predator p) {
+		float safetyDist = PVector.dist(position, p.position);
+		this.fitness = safetyDist;
+		// to hold friend distance sum
+		float sum = 0;
+		// loop thru all fish and add distances
+		for (Guppy other : guppies) {
+			sum += PVector.dist(this.position, other.position);
+		}
+		// get average distance from neighbors
+		sum /= (guppies.size());
+		// reward fish that school well
+		if (35 <= sum || sum <= 65) {
+			this.fitness *= 10^6;
+		} else if (65 < sum || sum <= 125) {
+			this.fitness *= 10^3;
+		} else if (125 < sum || sum <= 200) {
+			this.fitness *= 10^2;
+		} else if (sum < 35) {
+			// punish fish who stay too close together
+			this.fitness *= 10^-2;
+		} else if (sum > 400) {
+			// punish fish who stay too far from school
+			this.fitness *= 10^-4;
+		}
+		// punish fish who are eaten
+		boolean eaten = (safetyDist <= 10);
+		if (eaten) {
 			fitness /= 75;
 		}
 		return this.fitness;

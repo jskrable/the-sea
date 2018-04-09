@@ -1,7 +1,6 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import processing.core.PApplet;
 import processing.data.JSONArray;
 import processing.data.JSONObject;
@@ -44,7 +43,7 @@ public class Population {
 		float maxFitness = 0;
 		// loop thru guppies and get fitness score
 		for (Guppy g : guppies) {
-			g.getFitness(p);
+			g.getFitness(guppies, p);
 			// make sure max is highest
 			if (g.fitness > maxFitness) {
 				maxFitness = g.fitness;
@@ -69,11 +68,11 @@ public class Population {
 	}
 	
 	// create a new generation of guppies
-	public void naturalSelection(int maxpop) {
+	public void naturalSelection(int popsize) {
 		// init offspring list
 		offspring = new ArrayList<Guppy>();
 		// iterate thru population
-		int n = maxpop;
+		int n = popsize;
 		// use standard for loop to avoid concurrent modification
 		for (int i=0; i < n; i++) {
 			// get a random guppy from mating pool
@@ -94,7 +93,7 @@ public class Population {
 		this.guppies.addAll(offspring);
 	}
 	
-	public void writeDataFile(String filename) {
+	public void writeDataFile(String filepath) {
 		
 		// init JSON object
 		JSONObject json = new JSONObject();
@@ -108,13 +107,12 @@ public class Population {
 			array.append(entry);
 		}
 		json.put("records", array);
-		String filepath = "/Users/jskrable/Documents/" + filename;
 		
 		// write file
 		try (FileWriter file = new FileWriter(filepath)) {
 			file.write(json.toString());
-			//System.out.println("Successfully Copied JSON Object to File...");
-			//System.out.println("\nJSON Object: " + json);
+			System.out.println("Successfully Copied JSON Object to File...");
+			System.out.println("\nJSON Object: " + json);
 		} catch (IOException e) {
 			// auto-generated catch block
 			e.printStackTrace();
