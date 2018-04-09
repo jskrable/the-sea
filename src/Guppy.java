@@ -34,6 +34,7 @@ public class Guppy extends Fish {
 	
 	// applies various swarm forces
 	protected void school(ArrayList<Guppy> guppies, Predator p) {
+		//System.out.println(genes);
 		// init. each force
 		PVector a = align(guppies);
 		PVector s = separate(guppies);

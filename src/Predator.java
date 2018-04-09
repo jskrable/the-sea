@@ -5,7 +5,7 @@ import processing.core.PVector;
 public class Predator extends Fish{
 
 	// Auto-generated constructor stub
-	public Predator(PApplet p, int x, int y, DNA d) {
+	public Predator(PApplet p, int x, int y, DNA dna) {
 		super(p, x, y);
 	}
 	

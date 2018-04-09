@@ -1,6 +1,6 @@
 import processing.core.*;
 
-abstract class Fish extends DNA{
+abstract class Fish extends DNA {
 	// variable declarations
 	PVector position;
 	PVector velocity;

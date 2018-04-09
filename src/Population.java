@@ -2,6 +2,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import processing.core.PApplet;
+import processing.data.JSONArray;
 import processing.data.JSONObject;
 
 public class Population {
@@ -14,10 +15,11 @@ public class Population {
 	
 	
 	// construct array of fish
-	Population() {
+	public Population(PApplet p) {
 		guppies = new ArrayList<Guppy>();
 		matingPool = new ArrayList<Guppy>();
 		offspring = new ArrayList<Guppy>();
+		parent = p;
 	}
 	
 	// method to add guppies to array
@@ -76,11 +78,12 @@ public class Population {
 			randomMate = (int)(Math.random()*matingPool.size());
 			Guppy parent2 = this.matingPool.get(randomMate);
 			// create a new child guppy
-			Guppy child = new Guppy(parent, 0, 0, parent1.mating(parent2));
+			DNA childDNA = parent1.mating(parent2);
+			Guppy child = new Guppy(parent, 0, 0, childDNA);
 			child.mutation();
 			// add to offspring pool
 			offspring.add(child);
-		}
+		} 
 		// replace current population with new one
 		this.guppies = offspring;
 	}
@@ -89,20 +92,23 @@ public class Population {
 		
 		// init JSON object
 		JSONObject json = new JSONObject();
+		JSONArray array = new JSONArray();
+		JSONObject entry = new JSONObject();
 		
 		// add fitness scores to file
 		for (Guppy g : guppies) {
-			json.put("Fitness", g.fitness);
-			json.put("DNA", g.genes);
-			//json.put("Guppy", g);
+			entry.put("fitness", g.fitness);
+			entry.put("dna", g.genes);
+			array.append(entry);
 		}
+		json.put("records", array);
 		String filepath = "/Users/jskra/Documents/" + filename;
 		
 		// write file
 		try (FileWriter file = new FileWriter(filepath)) {
 			file.write(json.toString());
-			System.out.println("Successfully Copied JSON Object to File...");
-			System.out.println("\nJSON Object: " + json);
+			//System.out.println("Successfully Copied JSON Object to File...");
+			//System.out.println("\nJSON Object: " + json);
 		} catch (IOException e) {
 			// auto-generated catch block
 			e.printStackTrace();

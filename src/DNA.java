@@ -11,8 +11,6 @@ public class DNA {
 		this.genes = geneMap;
 	}
 	
-	// setter for single gene value
-	
 	// getter for full gene map
 	public HashMap<String, Float> getGenes() {
 		return this.genes;	
@@ -29,13 +27,13 @@ public class DNA {
 		DNA childDNA = new DNA();
 		// flip a coin
 		double coin = Math.random();
+		// create new map for child genes
+		HashMap<String, Float> childGenes = new HashMap<String, Float>();
 		// iterate thru parent genes
-		for (HashMap.Entry<String, Float> entry : this.genes.entrySet()) {	
+		for (HashMap.Entry<String, Float> entry : mate.genes.entrySet()) {	
 			// get gene values
 			String key = entry.getKey();
 			Float val = entry.getValue();
-			// create new entry for a child gene
-			HashMap<String, Float> childGenes = new HashMap<String, Float>();
 			// 50% chance of gene from parent 1
 			if (coin >= 0.5) {
 				childGenes.put(key, val);
@@ -43,6 +41,7 @@ public class DNA {
 				// 50% chance from parent 2
 				childGenes.put(key, mate.getGene(key));
 			}
+			childDNA.setGenes(childGenes);
 			// re-randomize
 			coin = Math.random();
 		}

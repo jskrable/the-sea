@@ -7,7 +7,7 @@ public class Lir extends PApplet {
 	DNA dna;
 	// variable set
 	int schoolPopSize = 50;
-	int lifespan = 500;
+	int lifespan = 100;
 	int epoch = 0;
 	int timer = 0;
 
@@ -23,7 +23,7 @@ public class Lir extends PApplet {
 
 	// add guppies to the school
 	public void setup() {
-		pop = new Population();
+		pop = new Population(this);
 		for (int i = 0; i < schoolPopSize; i++) {
 			Guppy g = new Guppy(this, 0, 0, dna);
 			pop.addGuppy(g);
