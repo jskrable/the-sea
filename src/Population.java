@@ -1,9 +1,8 @@
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import processing.core.PApplet;
-import processing.data.JSONArray;
-import processing.data.JSONObject;
 
 public class Population {
 	
@@ -12,6 +11,9 @@ public class Population {
 	ArrayList<Guppy> matingPool;
 	ArrayList<Guppy> offspring;
 	PApplet parent;
+	float maxFitness;
+	String filepath;
+	String line;
 	
 	
 	// construct array of fish
@@ -26,7 +28,7 @@ public class Population {
 	}
 
 	// call fish run method for each in array
-	public int run(Predator p) {
+	int run(Predator p) {
 		int popSize = 0; 
 		for (Guppy g : guppies) {
 			g.run(guppies, p);
@@ -36,7 +38,7 @@ public class Population {
 	}
 	
 	// evaluate a population of guppies
-	public void eval(Predator p) {
+	float eval(Predator p) {
 		// init mating pool
 		matingPool = new ArrayList<Guppy>();
 		// init max fitness for normalization
@@ -65,10 +67,11 @@ public class Population {
 				}
 			}
 		}
+		return maxFitness;
 	}
 	
 	// create a new generation of guppies
-	public void naturalSelection(int popsize) {
+	void naturalSelection(int popsize) {
 		// init offspring list
 		offspring = new ArrayList<Guppy>();
 		// iterate thru population
@@ -83,7 +86,7 @@ public class Population {
 			Guppy parent2 = this.matingPool.get(randomMate);
 			// create a new child guppy
 			DNA childDNA = parent1.mating(parent2);
-			Guppy child = new Guppy(parent, 0, 0, childDNA);
+			Guppy child = new Guppy(parent, 0, 0, childDNA, 0);
 			child.mutation();
 			// add to offspring pool
 			offspring.add(child);
@@ -93,26 +96,20 @@ public class Population {
 		this.guppies.addAll(offspring);
 	}
 	
-	public void writeDataFile(String filepath) {
+	void writeDataFile(int gen, float fit) {
 		
-		// init JSON object
-		JSONObject json = new JSONObject();
-		JSONArray array = new JSONArray();
-		JSONObject entry = new JSONObject();
-		
-		// add fitness scores to file
-		for (Guppy g : guppies) {
-			entry.put("fitness", g.fitness);
-			entry.put("dna", g.genes);
-			array.append(entry);
+		if (gen == 0) {
+			String timestamp = new SimpleDateFormat("yyMMddHHmmss").format(new java.util.Date());
+			filepath = System.getProperty("user.dir") + "/data/population_summary_" + timestamp + ".csv";
+			line = "Max Fitness,Generation Number\n" + maxFitness + "," + gen;
+		} else {
+			line = "\n" + fit + "," + gen;
 		}
-		json.put("records", array);
 		
 		// write file
-		try (FileWriter file = new FileWriter(filepath)) {
-			file.write(json.toString());
-			System.out.println("Successfully Copied JSON Object to File...");
-			System.out.println("\nJSON Object: " + json);
+		try (FileWriter file = new FileWriter(filepath, true)) {
+			file.write(line);
+			System.out.println("\nRow: " + line);
 		} catch (IOException e) {
 			// auto-generated catch block
 			e.printStackTrace();

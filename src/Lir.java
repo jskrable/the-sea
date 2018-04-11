@@ -1,5 +1,3 @@
-import java.io.File;
-import java.text.SimpleDateFormat;
 import processing.core.PApplet;
 
 public class Lir extends PApplet {
@@ -10,12 +8,9 @@ public class Lir extends PApplet {
 	// variable set
 	int popSize = 50;
 	int lifespan = 1500;
-	int epoch = 0;
+	int generation = 0;
 	int timer = 0;
-	String timestamp = new SimpleDateFormat("yyyy-MM-dd HHmmss").format(new java.util.Date());
-	String filepath = System.getProperty("user.dir") + "/data/run " + timestamp + 
-			"/population_summary_" + epoch + ".json";
-	boolean mkdatadir = new File(filepath).mkdirs();
+	
 
 	// PApplet extension
 	public static void main(String[] args) {
@@ -31,7 +26,7 @@ public class Lir extends PApplet {
 	public void setup() {
 		pop = new Population(this);
 		for (int i = 0; i < popSize; i++) {
-			Guppy g = new Guppy(this, 0, 0, dna);
+			Guppy g = new Guppy(this, 0, 0, dna, 0);
 			pop.addGuppy(g);
 		}
 		// add one predator
@@ -49,22 +44,22 @@ public class Lir extends PApplet {
 		timer++;
 		// process generation
 		if (timer == lifespan) {
-			pop.eval(pred);
-			//pop.writeDataFile(filepath);
+			float fit = pop.eval(pred);
+			pop.writeDataFile(generation, fit);
 			pop.naturalSelection(popSize);
 			timer = 0;
-			epoch++;
+			generation++;
 		}
 		// help text
 		fill(0);
-		text(("Population Size: " + displayPopSize + "      Timer: " + timer + "      Epoch: " + epoch),
-				12, this.height - 16);
+		text(("Population Size: " + displayPopSize + "      Timer: " + timer + "      Generation: " 
+				+ generation), 12, this.height - 16);
 		text("Click and drag to add new fish", 12, 16);
 		
 	}
 	
 	// add new fish to school on mouse
 	public void mouseDragged() {
-		  pop.addGuppy(new Guppy(this, mouseX, mouseY, dna));
+		  pop.addGuppy(new Guppy(this, mouseX, mouseY, dna, 0));
 		}
 }

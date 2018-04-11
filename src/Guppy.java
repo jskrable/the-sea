@@ -5,7 +5,7 @@ import processing.core.PVector;
 public class Guppy extends Fish {
 	
 	// Auto-generated constructor stub
-	public Guppy(PApplet p, int x, int y, DNA dna) {
+	public Guppy(PApplet p, int x, int y, DNA dna, float fit) {
 		super(p, x, y);
 		
 		// if incoming dna is null, assign random genes
@@ -84,6 +84,12 @@ public class Guppy extends Fish {
 		parent.fill(127);
 		parent.ellipse(position.x,position.y,10,10);
 		parent.popMatrix();
+	}
+	
+	// continuously calculates a guppy's fitness score
+	private void fitness(ArrayList<Guppy> guppies, Predator p) {
+		
+		
 	}
 
 	// keeps guppies moving in similar direction
