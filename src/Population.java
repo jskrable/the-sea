@@ -45,7 +45,6 @@ public class Population {
 		float maxFitness = 0;
 		// loop thru guppies and get fitness score
 		for (Guppy g : guppies) {
-			g.getFitness(guppies, p);
 			// make sure max is highest
 			if (g.fitness > maxFitness) {
 				maxFitness = g.fitness;
@@ -68,6 +67,15 @@ public class Population {
 			}
 		}
 		return maxFitness;
+	}
+	
+	public float getAvgFit() {
+		float sum = 0;
+		for (Guppy g : guppies) {
+			sum += g.fitness;
+		}
+		float avgFitness = (sum / guppies.size()); 
+		return avgFitness;
 	}
 	
 	// create a new generation of guppies
@@ -96,14 +104,14 @@ public class Population {
 		this.guppies.addAll(offspring);
 	}
 	
-	void writeDataFile(int gen, float fit) {
+	void writeDataFile(int gen, float maxfit, float avgfit) {
 		
 		if (gen == 0) {
 			String timestamp = new SimpleDateFormat("yyMMddHHmmss").format(new java.util.Date());
 			filepath = System.getProperty("user.dir") + "/data/population_summary_" + timestamp + ".csv";
-			line = "Max Fitness,Generation Number\n" + maxFitness + "," + gen;
+			line = "Max Fitness,Average Fitness,Generation Number\n" + maxfit + "," + avgfit + "," + gen;
 		} else {
-			line = "\n" + fit + "," + gen;
+			line = "\n" + maxfit + "," + avgfit + "," + gen;
 		}
 		
 		// write file

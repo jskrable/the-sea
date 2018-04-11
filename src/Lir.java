@@ -44,8 +44,9 @@ public class Lir extends PApplet {
 		timer++;
 		// process generation
 		if (timer == lifespan) {
-			float fit = pop.eval(pred);
-			pop.writeDataFile(generation, fit);
+			float maxfit = pop.eval(pred);
+			float avgfit = pop.getAvgFit();
+			pop.writeDataFile(generation, maxfit, avgfit);
 			pop.naturalSelection(popSize);
 			timer = 0;
 			generation++;

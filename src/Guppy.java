@@ -4,6 +4,8 @@ import processing.core.PVector;
 
 public class Guppy extends Fish {
 	
+	float fitness;
+	
 	// Auto-generated constructor stub
 	public Guppy(PApplet p, int x, int y, DNA dna, float fit) {
 		super(p, x, y);
@@ -16,8 +18,45 @@ public class Guppy extends Fish {
 		}
 	}
 	
-	// calculates fitness score for guppy
-	protected float getFitness(ArrayList<Guppy> guppies, Predator p) {
+	// applies various swarm forces
+	protected void school(ArrayList<Guppy> guppies, Predator p) {
+		// init. each force
+		PVector a = align(guppies);
+		PVector s = separate(guppies);
+		PVector c = cohesion(guppies);
+		PVector f = flight(p);
+		// apply weights
+		a.mult(this.getGene("align"));
+		s.mult(this.getGene("separate"));
+		c.mult(this.getGene("cohesion"));
+		f.mult(this.getGene("flight"));
+		// apply each force
+		applyForce(c);
+		applyForce(s);
+		applyForce(a);
+		applyForce(f);
+	}
+	
+	// run method for guppies
+	public void run(ArrayList<Guppy> guppies, Predator p) {
+		school(guppies, p);
+		update();
+		fitness(guppies, p);
+		borders();
+		render();
+	}
+	
+	// render override to draw guppy
+	@Override
+	public void render() {
+		parent.pushMatrix();
+		parent.fill(127);
+		parent.ellipse(position.x,position.y,10,10);
+		parent.popMatrix();
+	}
+	
+	// continuously calculates a guppy's fitness score
+	private void fitness(ArrayList<Guppy> guppies, Predator p) {
 		float safetyDist = PVector.dist(position, p.position);
 		this.fitness = (1/safetyDist)*(10^6);
 		// to hold friend distance sum
@@ -47,49 +86,6 @@ public class Guppy extends Fish {
 		if (eaten) {
 			fitness /= (10^6);
 		}
-		return this.fitness;
-	}
-	
-	// applies various swarm forces
-	protected void school(ArrayList<Guppy> guppies, Predator p) {
-		// init. each force
-		PVector a = align(guppies);
-		PVector s = separate(guppies);
-		PVector c = cohesion(guppies);
-		PVector f = flight(p);
-		// apply weights
-		a.mult(this.getGene("align"));
-		s.mult(this.getGene("separate"));
-		c.mult(this.getGene("cohesion"));
-		f.mult(this.getGene("flight"));
-		// apply each force
-		applyForce(c);
-		applyForce(s);
-		applyForce(a);
-		applyForce(f);
-	}
-	
-	// run method for guppies
-	public void run(ArrayList<Guppy> guppies, Predator p) {
-		school(guppies, p);
-		update();
-		borders();
-		render();
-	}
-	
-	// render override to draw guppy
-	@Override
-	public void render() {
-		parent.pushMatrix();
-		parent.fill(127);
-		parent.ellipse(position.x,position.y,10,10);
-		parent.popMatrix();
-	}
-	
-	// continuously calculates a guppy's fitness score
-	private void fitness(ArrayList<Guppy> guppies, Predator p) {
-		
-		
 	}
 
 	// keeps guppies moving in similar direction
