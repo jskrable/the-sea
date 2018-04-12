@@ -26,6 +26,11 @@ public class Population {
 	public void addGuppy(Guppy g) {
 		guppies.add(g);
 	}
+	
+	// method to drop guppies from array
+	/*public void killGuppy(Guppy g) {
+		guppies.removeIf(g.eaten);
+	}*/
 
 	// call fish run method for each in array
 	int run(Predator p) {

@@ -58,34 +58,52 @@ public class Guppy extends Fish {
 	// continuously calculates a guppy's fitness score
 	private void fitness(ArrayList<Guppy> guppies, Predator p) {
 		float safetyDist = PVector.dist(position, p.position);
-		this.fitness = (1/safetyDist)*(10^6);
-		// to hold friend distance sum
-		float sum = 0;
-		// loop thru all fish and add distances
-		for (Guppy other : guppies) {
-			sum += PVector.dist(this.position, other.position);
+		boolean closeCall = (safetyDist <= 30);
+		boolean eaten = (safetyDist <= 10);
+		//float sum = 0;
+		boolean collision = false;
+		// set nonzero fitness
+		if (this.fitness == 0) {
+			this.fitness = safetyDist;
 		}
-		// get average distance from neighbors
-		sum /= (guppies.size());
+		// SET REWARDS HERE
+		
+		
+		// loop thru guppies for collision check
+		for (Guppy other : guppies) {
+			if (PVector.dist(this.position, other.position) == 0) {
+				collision = true;
+				this.fitness /= 50;
+			}
+		}
+		// punish those that collide
+		if (collision) {
+			fitness /= 2;
+		}
+		// punish fish who are nearly eaten
+		if (closeCall) {
+			fitness /= 75;
+		}
+		// punish fish who are eaten
+		if (eaten) {
+			fitness = 0.01f;
+			//guppies.remove(this);
+		}
+		// THIS SHIT IS BAD
+		//sum /= (guppies.size());
 		// reward fish that school well
-		if (35 <= sum || sum <= 65) {
-			this.fitness *= 10^6;
-		} else if (65 < sum || sum <= 125) {
+		/*if (20 <= sum || sum <= 50) {
 			this.fitness *= 10^3;
-		} else if (125 < sum || sum <= 200) {
+		} else if (50 < sum || sum <= 75) {
 			this.fitness *= 10^2;
-		} else if (sum < 35) {
+		} else if (75 < sum || sum <= 125) {
+			this.fitness *= 10*1.5;
+		} else if (sum < 20) {
 			// punish fish who stay too close together
 			this.fitness *= 10^-2;
 		} else if (sum > 400) {
 			// punish fish who stay too far from school
-			this.fitness *= 10^-4;
-		}
-		// punish fish who are eaten
-		boolean eaten = (safetyDist <= 10);
-		if (eaten) {
-			fitness /= (10^6);
-		}
+			this.fitness *= 10^-4;*/
 	}
 
 	// keeps guppies moving in similar direction
