@@ -61,6 +61,7 @@ public class Guppy extends Fish {
 		boolean closeCall = (safetyDist <= 30);
 		boolean eaten = (safetyDist <= 10);
 		//float sum = 0;
+		int cushion = 0;
 		boolean collision = false;
 		// set nonzero fitness
 		if (this.fitness == 0) {
@@ -69,24 +70,35 @@ public class Guppy extends Fish {
 		// SET REWARDS HERE
 		
 		
-		// loop thru guppies for collision check
+		// loop thru guppies
 		for (Guppy other : guppies) {
+			// collision check
 			if (PVector.dist(this.position, other.position) == 0) {
 				collision = true;
 				this.fitness /= 50;
 			}
+			// check how many other fish between this and pred
+			if (PVector.dist(this.position, other.position) < safetyDist) {
+				cushion++;
+			}
 		}
+		// reward fish that keep friends in between 
+		if (cushion > 0) {
+			this.fitness += cushion;
+		}
+		
+		
 		// punish those that collide
 		if (collision) {
-			fitness /= 2;
+			this.fitness *= .75;
 		}
 		// punish fish who are nearly eaten
 		if (closeCall) {
-			fitness /= 75;
+			this.fitness /= 5;
 		}
 		// punish fish who are eaten
 		if (eaten) {
-			fitness = 0.01f;
+			this.fitness = 0.01f;
 			//guppies.remove(this);
 		}
 		// THIS SHIT IS BAD
