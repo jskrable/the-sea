@@ -60,8 +60,11 @@ public class Guppy extends Fish {
 		float safetyDist = PVector.dist(position, p.position);
 		boolean closeCall = (safetyDist <= 30);
 		boolean eaten = (safetyDist <= 10);
+		
+		fitness = safetyDist;
+		
 		//float sum = 0;
-		int cushion = 0;
+		/*int cushion = 0;
 		boolean collision = false;
 		// set nonzero fitness
 		if (this.fitness == 0) {
