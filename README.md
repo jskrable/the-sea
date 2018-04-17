@@ -4,7 +4,7 @@ _This is a java applet that simulates the schooling behavior of fish. It is base
 
 ## master-clean
 
-This branch holds the standard schooling simulation.
+This branch holds a standard schooling simulation.
 
 A number of changes have been implemented to expand the basic flocking functionality. The Fish class has been extended into two child classes, Guppy and Predator. The guppies will school together based on three basic steering forces of alignment, cohesion, and separation. They also try to avoid any and all predator objects. The predator attempts to catch guppies.
 
@@ -22,6 +22,6 @@ There are a few variables that can be altered to influence the behavior of the p
 
 ## master
 
-This branch is the genetic algorithm implementation. The School class has been expanded into the Population class, and a DNA class has been addeed. The variables described in master-clean have been implemented as the genes that make up a fish's DNA. They begin as random, and the fish that perform better in each generation have a higher chance of passing their genes on to the next generation. 
+This branch is a genetic algorithm implementation. The School class has been expanded into the Population class, and a DNA class has been added. The variables described in master-clean have been implemented as the genes that make up any given guppy's DNA. They begin as random, and the fish that perform better in each generation have a higher chance of passing their genes on to the next generation.
 
-More to come soon...
+Performance is graded based on avoidance of the predator and conformance to standard schooling behavior as implemented in master-clean.
