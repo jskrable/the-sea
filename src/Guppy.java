@@ -59,12 +59,30 @@ public class Guppy extends Fish {
 	// continuously calculates a guppy's fitness score
 	private void fitness(ArrayList<Guppy> guppies, Predator p, int year) {
 		float safetyDist = PVector.dist(position, p.position);
-		boolean closeCall = (safetyDist <= 30);
+		//boolean closeCall = (safetyDist <= 30);
 
-		if (!eaten) {
+		// if it has not been eaten, apply fitness updates
+		if (!eaten && year > 100) {
+			// check for eaten
 			eaten = (safetyDist <= 15);
+			// increment fitness by distance from pred
 			fitness += safetyDist;
 			
+			// check distance from other guppies
+			for (Guppy other : guppies) {
+				float touching = PVector.dist(this.position, other.position);
+				// punish guppies that collide
+				if (touching <= 10) {
+					this.fitness /= 2;
+				}
+			}
+			
+			// punish guppies that don't move
+			if (this.velocity.mag() <= 1) {
+				this.fitness /= 2;
+			}
+			
+			// at end of generation, score based on preset values
 			if (year == 2000) {
 				float sep = Math.abs(2.3f - this.getGene("separate"));
 				float ali = Math.abs(1.2f - this.getGene("align"));
@@ -75,7 +93,8 @@ public class Guppy extends Fish {
 				float scare = Math.abs(100 - this.getGene("scare"));
 				float score = sep + ali + coh + fli + space + pull + scare;
 				
-				/*if (score < 1) {
+				// reward high-scoring guppies
+				if (score < 1) {
 					this.fitness *= 10^8;
 				} else if (score < 5) {
 					this.fitness *= 10^6;
@@ -91,16 +110,13 @@ public class Guppy extends Fish {
 					this.fitness *= 3;
 				} else if (score < 100) {
 					this.fitness *= 2;
-				}*/
+				}
 				
-				fitness /= score;
+				//fitness /= score;
 				
 				fitness = fitness / year;
 			}
-			// punish fish who are nearly eaten
-			/*if (closeCall) {
-				this.fitness /= 5;
-			}*/
+
 		} else if (eaten) {
 			// punish fish who are eaten
 			this.fitness = 0.01f;
