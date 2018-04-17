@@ -33,10 +33,10 @@ public class Population {
 	}*/
 
 	// call fish run method for each in array
-	int run(Predator p) {
+	int run(Predator p, int gen) {
 		int popSize = 0; 
 		for (Guppy g : guppies) {
-			g.run(guppies, p);
+			g.run(guppies, p, gen);
 			popSize++;
 		}
 		return popSize;

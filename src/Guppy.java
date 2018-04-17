@@ -5,6 +5,7 @@ import processing.core.PVector;
 public class Guppy extends Fish {
 	
 	float fitness;
+	boolean eaten;
 	
 	// Auto-generated constructor stub
 	public Guppy(PApplet p, int x, int y, DNA dna, float fit) {
@@ -38,10 +39,10 @@ public class Guppy extends Fish {
 	}
 	
 	// run method for guppies
-	public void run(ArrayList<Guppy> guppies, Predator p) {
+	public void run(ArrayList<Guppy> guppies, Predator p, int gen) {
 		school(guppies, p);
 		update();
-		fitness(guppies, p);
+		fitness(guppies, p, gen);
 		borders();
 		render();
 	}
@@ -56,69 +57,55 @@ public class Guppy extends Fish {
 	}
 	
 	// continuously calculates a guppy's fitness score
-	private void fitness(ArrayList<Guppy> guppies, Predator p) {
+	private void fitness(ArrayList<Guppy> guppies, Predator p, int year) {
 		float safetyDist = PVector.dist(position, p.position);
 		boolean closeCall = (safetyDist <= 30);
-		boolean eaten = (safetyDist <= 10);
-		
-		fitness = safetyDist;
-		
-		//float sum = 0;
-		/*int cushion = 0;
-		boolean collision = false;
-		// set nonzero fitness
-		if (this.fitness == 0) {
-			this.fitness = safetyDist;
-		}
-		// SET REWARDS HERE
-		
-		
-		// loop thru guppies
-		for (Guppy other : guppies) {
-			// collision check
-			if (PVector.dist(this.position, other.position) == 0) {
-				collision = true;
-				this.fitness /= 50;
+
+		if (!eaten) {
+			eaten = (safetyDist <= 15);
+			fitness += safetyDist;
+			
+			if (year == 1500) {
+				float sep = Math.abs(2.0f - this.getGene("separate"));
+				float ali = Math.abs(1.0f - this.getGene("align"));
+				float coh = Math.abs(1.4f - this.getGene("cohesion"));
+				float fli = Math.abs(2.6f - this.getGene("flight"));
+				float space = Math.abs( 35 - this.getGene("space"));
+				float pull = Math.abs(150 - this.getGene("pull"));
+				float scare = Math.abs(100 - this.getGene("scare"));
+				float score = sep + ali + coh + fli + space + pull + scare;
+				
+				/*if (score < 1) {
+					this.fitness *= 10^8;
+				} else if (score < 5) {
+					this.fitness *= 10^6;
+				} else if (score < 10) {
+					this.fitness *= 10^4;
+				} else if (score < 20) {
+					this.fitness *= 10^2;
+				} else if (score < 30) {
+					this.fitness *= 10;
+				} else if (score < 50) {
+					this.fitness *= 5;
+				} else if (score < 75) {
+					this.fitness *= 3;
+				} else if (score < 100) {
+					this.fitness *= 2;
+				}*/
+				
+				fitness /= score;
+				
+				fitness = fitness / year;
 			}
-			// check how many other fish between this and pred
-			if (PVector.dist(this.position, other.position) < safetyDist) {
-				cushion++;
-			}
-		}
-		// reward fish that keep friends in between 
-		if (cushion > 0) {
-			this.fitness += cushion;
-		}
-		
-		
-		// punish those that collide
-		if (collision) {
-			this.fitness *= .75;
-		}
-		// punish fish who are nearly eaten
-		if (closeCall) {
-			this.fitness /= 5;
-		}
-		// punish fish who are eaten
-		if (eaten) {
+			// punish fish who are nearly eaten
+			/*if (closeCall) {
+				this.fitness /= 5;
+			}*/
+		} else if (eaten) {
+			// punish fish who are eaten
 			this.fitness = 0.01f;
 			//guppies.remove(this);
-		}
-		// THIS SHIT IS BAD
-		//sum /= (guppies.size());
-		// reward fish that school well
-		/*if (20 <= sum || sum <= 50) {
-			this.fitness *= 10^3;
-		} else if (50 < sum || sum <= 75) {
-			this.fitness *= 10^2;
-		} else if (75 < sum || sum <= 125) {
-			this.fitness *= 10*1.5;
-		} else if (sum < 20) {
-			// punish fish who stay too close together
-			this.fitness *= 10^-2;
-		} else if (sum > 400) {
-			// punish fish who stay too far from school
-			this.fitness *= 10^-4;*/
+		}		
 	}
 
 	// keeps guppies moving in similar direction

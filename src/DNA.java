@@ -14,7 +14,7 @@ public class DNA {
 		geneMap.put("cohesion", (float) Math.random()*2);
 		geneMap.put("flight", (float) Math.random()*2);
 		geneMap.put("pull", (float) Math.random()*200);
-		geneMap.put("space", (float) Math.random()*(160)+40);
+		geneMap.put("space", (float) Math.random()*200);
 		geneMap.put("scare", (float) Math.random()*200);
 		this.setGenes(geneMap);
 	}
