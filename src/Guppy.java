@@ -65,12 +65,12 @@ public class Guppy extends Fish {
 			eaten = (safetyDist <= 15);
 			fitness += safetyDist;
 			
-			if (year == 1500) {
-				float sep = Math.abs(2.0f - this.getGene("separate"));
-				float ali = Math.abs(1.0f - this.getGene("align"));
+			if (year == 2000) {
+				float sep = Math.abs(2.3f - this.getGene("separate"));
+				float ali = Math.abs(1.2f - this.getGene("align"));
 				float coh = Math.abs(1.4f - this.getGene("cohesion"));
 				float fli = Math.abs(2.6f - this.getGene("flight"));
-				float space = Math.abs( 35 - this.getGene("space"));
+				float space = Math.abs(40 - this.getGene("space"));
 				float pull = Math.abs(150 - this.getGene("pull"));
 				float scare = Math.abs(100 - this.getGene("scare"));
 				float score = sep + ali + coh + fli + space + pull + scare;
