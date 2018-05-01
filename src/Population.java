@@ -2,6 +2,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import processing.core.PApplet;
 
 public class Population {
@@ -76,13 +78,45 @@ public class Population {
 	
 	public float getAvgFit() {
 		float sum = 0;
+		int cnt = 0;
 		for (Guppy g : guppies) {
-			sum += g.fitness;
+			if (!g.eaten) {
+				sum += g.fitness;
+				cnt++;
+			}
+			
 		}
-		float avgFitness = (sum / guppies.size()); 
+		float avgFitness = (sum / cnt); 
 		return avgFitness;
 	}
 	
+	public double getMedFit() {
+		double fits[] = new double[guppies.size()];
+		int i = 0;
+		for (Guppy g : guppies) {
+			if (!g.eaten) {
+				fits[i] = g.fitness; 
+				i++;
+			}
+		}
+		
+		Arrays.sort(fits);
+		
+		double median = 0;
+		if (fits.length % 2 == 0) {
+			int indexA = (fits.length - 1) / 2;
+			int indexB = fits.length / 2;
+			
+			median = ((double) (fits[indexA] + fits[indexB])) / 2;
+		}
+		else {
+			int index = (fits.length - 1) / 2;
+			median = fits[ index ];
+		}
+	    
+	    return median;
+		
+	}
 	// create a new generation of guppies
 	void naturalSelection(int popsize) {
 		// init offspring list
@@ -109,14 +143,15 @@ public class Population {
 		this.guppies.addAll(offspring);
 	}
 	
-	void writeDataFile(int gen, float maxfit, float avgfit) {
+	void writeDataFile(int gen, float maxfit, float avgfit, double medfit, int popsize) {
 		
 		if (gen == 0) {
 			String timestamp = new SimpleDateFormat("yyMMddHHmmss").format(new java.util.Date());
-			filepath = System.getProperty("user.dir") + "/data/population_summary_" + timestamp + ".csv";
-			line = "Max Fitness,Average Fitness,Generation Number\n" + maxfit + "," + avgfit + "," + gen;
+			filepath = System.getProperty("user.dir") + "/data/population_size_" + popsize + 
+			"_summary_" + timestamp + ".csv";
+			line = "gen,max fit,avg fit,med fit\n" + gen + "," + maxfit + "," + avgfit + "," + medfit;
 		} else {
-			line = "\n" + maxfit + "," + avgfit + "," + gen;
+			line = "\n" + gen + "," + maxfit + "," + avgfit + "," + medfit;
 		}
 		
 		// write file

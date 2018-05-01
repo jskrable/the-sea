@@ -6,7 +6,7 @@ public class Lir extends PApplet {
 	Predator pred;
 	DNA dna;
 	// variable set
-	int popSize = 50;
+	int popSize = 200;
 	int lifespan = 2000;
 	int generation = 0;
 	int timer = 0;
@@ -46,7 +46,8 @@ public class Lir extends PApplet {
 		if (timer == lifespan) {
 			float maxfit = pop.eval(pred);
 			float avgfit = pop.getAvgFit();
-			pop.writeDataFile(generation, maxfit, avgfit);
+			double medfit = pop.getMedFit();
+			pop.writeDataFile(generation, maxfit, avgfit, medfit, displayPopSize);
 			pop.naturalSelection(popSize);
 			timer = 0;
 			generation++;
