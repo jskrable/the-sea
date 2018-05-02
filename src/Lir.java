@@ -6,8 +6,8 @@ public class Lir extends PApplet {
 	Predator pred;
 	DNA dna;
 	// variable set
-	int popSize = 200;
-	int lifespan = 2000;
+	int popSize = 100;
+	int lifespan = 1000;
 	int generation = 0;
 	int timer = 0;
 	
